@@ -2,12 +2,15 @@
 
 const productRouter = require("express").Router();
 const ProductController = require("../controllers/product");
+const authenticate = require("../middlewares/authenticate");
+const Authorize = require("../middlewares/authorize");
 
 productRouter.get("/", ProductController.findAll);
 productRouter.get("/:product_id", ProductController.findOne);
-productRouter.post("/", ProductController.create);
-productRouter.put("/:product_id", ProductController.updateAll);
+productRouter.use(authenticate);
+productRouter.post("/", Authorize.productSuperAdmin, ProductController.create);
+productRouter.put("/:product_id", Authorize.productSuperAdmin, ProductController.updateAll);
 // productRouter.patch("/:product_id", ProductController.updatePart);
-productRouter.delete("/:product_id", ProductController.destroy);
+productRouter.delete("/:product_id", Authorize.productSuperAdmin, ProductController.destroy);
 
 module.exports = productRouter;

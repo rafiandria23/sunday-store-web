@@ -10,12 +10,16 @@ module.exports = (sequelize, DataTypes) => {
   User.init(
     {
       name: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        
       },
       email: {
         type: DataTypes.STRING
       },
       password: {
+        type: DataTypes.STRING
+      },
+      role: {
         type: DataTypes.STRING
       }
     },
@@ -25,6 +29,9 @@ module.exports = (sequelize, DataTypes) => {
         beforeCreate(user, options) {
           if (user.password) {
             user.password = encryptPassword(user.password);
+          }
+          if (process.env.NODE_ENV == "test") {
+            user.role = "Super Admin";
           }
         }
       }

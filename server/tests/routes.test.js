@@ -14,7 +14,7 @@ describe("User Endpoints", () => {
       password: "test"
     };
 
-    const res = await request(app)
+    const res = await request
       .post("/api/register")
       .send(userTest);
 
@@ -49,6 +49,7 @@ describe("Product Endpoints", () => {
 
     const res = await request
       .post("/api/products")
+      .set("token", token)
       .send(productTest);
 
     expect(res.status).toEqual(201);
@@ -77,6 +78,7 @@ describe("Product Endpoints", () => {
 
     const res = await request
       .put("/api/products/1")
+      .set("token", token)
       .send(productTest);
 
     expect(res.status).toEqual(200);
@@ -84,7 +86,9 @@ describe("Product Endpoints", () => {
   });
 
   it("Should return a success deletion message", async () => {
-    const res = await request.delete("/api/products/1");
+    const res = await request
+      .delete("/api/products/1")
+      .set("token", token);
     expect(res.status).toEqual(200);
     expect(res.body.message).toBe("Successfully deleted product!");
   });

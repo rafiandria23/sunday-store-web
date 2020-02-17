@@ -21,8 +21,8 @@ class UserController {
     User.findOne({ where: { email: email } })
       .then(result => {
         if (decryptPassword(password, result.password)) {
-          const { name, email } = result;
-          const generatedToken = generateToken({ name, email });
+          const { id, name, email } = result;
+          const generatedToken = generateToken({ id, name, email });
           res.status(200).json({ token: generatedToken });
         }
       })

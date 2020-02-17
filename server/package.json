@@ -7,7 +7,7 @@
     "dev": "NODE_ENV=development nodemon app.js",
     "migrate": "sequelize db:migrate",
     "migrate:reset": "sequelize db:migrate:undo:all && npm run migrate",
-    "test": "cross-env NODE_ENV=test jest --testTimeout=10000",
+    "test": "cross-env NODE_ENV=test jest --forceExit",
     "pretest": "cross-env NODE_ENV=test npm run migrate:reset"
   },
   "keywords": [
