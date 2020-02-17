@@ -1,0 +1,44 @@
+{
+  "name": "sunday-e-commerce",
+  "version": "1.0.0",
+  "description": "Hacktiv8 Phase 2 Week 3 Weekly Project",
+  "main": "app.js",
+  "scripts": {
+    "dev": "NODE_ENV=development nodemon app.js",
+    "migrate": "sequelize db:migrate",
+    "migrate:reset": "sequelize db:migrate:undo:all && npm run migrate",
+    "test": "cross-env NODE_ENV=test jest --testTimeout=10000",
+    "pretest": "cross-env NODE_ENV=test npm run migrate:reset"
+  },
+  "keywords": [
+    "express",
+    "jest",
+    "supertest",
+    "socket.io"
+  ],
+  "author": "Adam Rafiandri",
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt": "^3.0.8",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "http-errors": "^1.7.3",
+    "jsonwebtoken": "^8.5.1",
+    "pg": "^7.18.1",
+    "pg-hstore": "^2.3.3",
+    "sequelize": "^5.21.4",
+    "socket-io": "^1.0.0"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.0",
+    "dotenv": "^8.2.0",
+    "jest": "^25.1.0",
+    "supertest": "^4.0.2"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
+  }
+}
