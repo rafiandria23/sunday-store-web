@@ -41,12 +41,11 @@ class Authorize {
 
   static cart(req, res, next) {
     if (typeof req.params.cart_id != "undefined") {
-      Cart.findOne(Number(req.params.cart_id))
+      Cart.findOne({ where: { id: Number(req.params.cart_id) } })
         .then(foundCart => {
           if (foundCart.UserId == req.user.id) {
             next();
-          }
-          else {
+          } else {
             throw createError(401);
           }
         })
@@ -54,17 +53,17 @@ class Authorize {
           next(err);
         });
     }
-    else {
-      Cart.findOne({ where: { UserId: req.user.id } })
-        .then(foundCart => {
-          if (!foundCart) {
-            next();
-          }
-        })
-        .catch(err => {
-          next(err);
-        });
-    }
+    // else {
+    //   Cart.findOne({ where: { UserId: req.user.id } })
+    //     .then(foundCart => {
+    //       if (!foundCart) {
+    //         next();
+    //       }
+    //     })
+    //     .catch(err => {
+    //       next(err);
+    //     });
+    // }
   }
 }
 

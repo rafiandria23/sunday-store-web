@@ -12,7 +12,7 @@ module.exports = (err, req, res, next) => {
         break;
       
       default:
-        console.log(err);
+        console.log(err.message);
         res.status(500).json({ message: "Internal server error!", err });
         break;
     }

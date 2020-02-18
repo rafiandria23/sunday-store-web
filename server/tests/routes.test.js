@@ -84,7 +84,53 @@ describe("Product Endpoints", () => {
     expect(res.status).toEqual(200);
     expect(res.body.name).toBe(productTest.name);
   });
+});
 
+// Cart Testings
+describe("Cart Endpoints", () => {
+  it("Should return the newly created cart data", async () => {
+    const cartData = {
+      UserId: 1,
+      ProductId: 1
+    };
+
+    const res = await request
+      .post("/api/carts")
+      .set("token", token)
+      .send(cartData);
+    
+    expect(res.status).toEqual(201);
+    expect(res.body.carts).toHaveProperty("id");
+  });
+
+  it("Should return all carts", async () => {
+    const res = await request
+      .get("/api/carts")
+      .set("token", token);
+    
+    expect(res.status).toEqual(200);
+    expect(Array.isArray(res.body.carts)).toBe(true);
+  });
+
+  it("Should return the specified cart", async () => {
+    const res = await request
+      .get("/api/carts/1")
+      .set("token", token);
+    expect(res.status).toEqual(200);
+    expect(typeof res.body.carts).toBe("object");
+  });
+
+  it("Should return a success message of cart deletion", async() => {
+    const res = await request
+      .delete("/api/carts/1")
+      .set("token", token);
+    expect(res.status).toBe(200);
+    expect(res.body.message).toBe("Successfully deleted cart!");
+  });
+});
+
+// Product Removal
+describe("Product Deletion Endpoint", () => {
   it("Should return a success deletion message", async () => {
     const res = await request
       .delete("/api/products/1")

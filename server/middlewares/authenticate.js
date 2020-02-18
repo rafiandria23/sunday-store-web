@@ -1,6 +1,7 @@
 "use strict";
 
 const jwt = require("jsonwebtoken");
+const createError = require("http-errors");
 
 module.exports = (req, res, next) => {
   try {
@@ -9,6 +10,6 @@ module.exports = (req, res, next) => {
     req.user = user;
     next();
   } catch (err) {
-    next(err);
+    next(createError(400, "Invalid token!"));
   }
 };
