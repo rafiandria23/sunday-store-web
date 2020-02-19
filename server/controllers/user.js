@@ -3,6 +3,8 @@
 const { User } = require("../models");
 const generateToken = require("../helpers/generate-token");
 const decryptPassword = require("../helpers/decrypt-password");
+const verifyToken = require("../helpers/verify-token");
+const createError = require("http-errors");
 
 class UserController {
   static register(req, res, next) {
@@ -12,19 +14,42 @@ class UserController {
         res.status(201).json({ message: "Please login to continue!" });
       })
       .catch(err => {
+        // res.json(err);
         next(err);
       });
   }
 
   static login(req, res, next) {
     const { email, password } = req.body;
-    User.findOne({ where: { email: email } })
+    const emailError = `Email cannot be empty!`;
+    const passwordError = `Please enter password!`;
+    if (!email) {
+      next(createError(400, emailError));
+    } else if (!password) {
+      next(createError(400, passwordError));
+    } else if (!email && !password) {
+      next(createError(400, [emailError, passwordError]));
+    } else {
+      User.findOne({ where: { email: email } })
+        .then(result => {
+          if (decryptPassword(password, result.password)) {
+            const { id, name, email } = result;
+            const generatedToken = generateToken({ id, name, email });
+            res.status(200).json({ token: generatedToken });
+          }
+        })
+        .catch(err => {
+          next(err);
+        });
+    }
+  }
+
+  static check(req, res, next) {
+    const { token } = req.headers;
+    const {id, name, email} = verifyToken(token);
+    User.findOne({ where: { email } })
       .then(result => {
-        if (decryptPassword(password, result.password)) {
-          const { id, name, email } = result;
-          const generatedToken = generateToken({ id, name, email });
-          res.status(200).json({ token: generatedToken });
-        }
+        res.status(200).json({ message: "Verified!" });
       })
       .catch(err => {
         next(err);

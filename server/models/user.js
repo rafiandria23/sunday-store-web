@@ -11,17 +11,54 @@ module.exports = (sequelize, DataTypes) => {
     {
       name: {
         type: DataTypes.STRING,
-        
+        allowNull: false,
+        validate: {
+          notNull: {
+            args: true,
+            msg: `Name cannot be empty!`,
+          },
+          notEmpty: {
+            args: true,
+            msg: `Name cannot be empty!`,
+          },
+        },
       },
       email: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notNull: {
+            args: true,
+            msg: `Email cannot be empty!`,
+          },
+          notEmpty: {
+            args: true,
+            msg: `Email cannot be empty!`,
+          },
+          isEmail: {
+            args: true,
+            msg: `Please provide proper email address!`,
+          },
+        },
       },
       password: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notNull: {
+            args: true,
+            msg: `Password cannot be empty!`,
+          },
+          notEmpty: {
+            args: true,
+            msg: `Password cannot be empty!`,
+          },
+        },
       },
       role: {
-        type: DataTypes.STRING
-      }
+        type: DataTypes.STRING,
+        defaultValue: `Member`,
+      },
     },
     {
       sequelize,
@@ -30,12 +67,12 @@ module.exports = (sequelize, DataTypes) => {
           if (user.password) {
             user.password = encryptPassword(user.password);
           }
-          if (process.env.NODE_ENV == "test") {
-            user.role = "Super Admin";
+          if (process.env.NODE_ENV == 'test') {
+            user.role = 'Super Admin';
           }
-        }
-      }
-    }
+        },
+      },
+    },
   );
 
   User.associate = function(models) {

@@ -1,12 +1,12 @@
 "use strict";
 
-const jwt = require("jsonwebtoken");
 const createError = require("http-errors");
+const verifyToken = require("../helpers/verify-token");
 
 module.exports = (req, res, next) => {
   try {
     const token = req.headers.token;
-    const user = jwt.verify(token, process.env.JWT_SECRET_KEY);
+    const user = verifyToken(token, process.env.JWT_SECRET_KEY);
     req.user = user;
     next();
   } catch (err) {

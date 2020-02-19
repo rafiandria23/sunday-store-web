@@ -6,7 +6,7 @@ const productRouter = require("./product");
 const authenticate = require("../middlewares/authenticate");
 const cartRouter = require("./cart");
 
-indexRouter.use("/", userRouter);
+indexRouter.use("/users", userRouter);
 indexRouter.use("/products", productRouter);
 indexRouter.use(authenticate);
 indexRouter.use("/carts", cartRouter);

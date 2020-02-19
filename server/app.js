@@ -11,6 +11,7 @@ const port = process.env.PORT || 3000;
 // const server = require("http").Server(app);
 // const io = require("socket-io")(server, { transports: ["websocket"] });
 
+const errorHandler = require("./middlewares/error-handler");
 const indexRouter = require("./routes");
 
 app.use(cors());
@@ -24,7 +25,7 @@ app.use(express.json());
 // });
 
 app.use("/api", indexRouter);
-// error handler here ...
+app.use(errorHandler);
 
 // server.listen(port, () => {
 //   console.log(`Sunday E-Commerce API is running on PORT ${port}`);
