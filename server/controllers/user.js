@@ -35,7 +35,7 @@ class UserController {
           if (decryptPassword(password, result.password)) {
             const { id, name, email } = result;
             const generatedToken = generateToken({ id, name, email });
-            res.status(200).json({ token: generatedToken });
+            res.status(200).json({ token: generatedToken, userData: result });
           }
         })
         .catch(err => {

@@ -9,7 +9,7 @@
         class="card-img-top"
         alt="">
         <div class="card-body">
-          <h5 class="card-title">{{ this.userData.name }}</h5>
+          <h5 class="card-title">{{ this.getUserData().name }}</h5>
           <p class="card-text">
             Some quick example text to build
             on the card title and make up the
@@ -23,7 +23,7 @@
         </ul>
         <div class="card-body">
           <router-link
-            :to="{ name: 'Edit Profile', params: { UserId: this.userData.UserId }}"
+            :to="{ name: 'Edit Profile', params: { UserId: this.getUserData().id }}"
             class="card-link">
             Edit Profile
           </router-link>
@@ -74,14 +74,15 @@
 <script>
 export default {
   name: 'Dashboard',
-  data() {
-    return {
-      userData: {
-        UserId: this.$store.userData.id,
-        name: this.$store.userData.name,
-        email: this.$store.userData.email,
-      },
-    };
+  methods: {
+    getUserData() {
+      return {
+        UserId: this.$store.state.currentUser.id,
+        name: this.$store.state.currentUser.name,
+        email: this.$store.state.currentUser.email,
+        role: this.$store.state.currentUser.role,
+      };
+    },
   },
 };
 </script>

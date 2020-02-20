@@ -68,8 +68,9 @@ export default {
             icon: 'success',
             title: 'Successfully logged in!',
           });
+          const {id, name, email, role} = data.userData;
           localStorage.setItem('token', data.token);
-          this.$store.dispatch('checkLoginStatus');
+          localStorage.setItem('currentUser', {id, name, email, role});
           this.$router.push({ name: 'Home' });
         })
         .catch((err) => {

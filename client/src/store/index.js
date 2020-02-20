@@ -14,16 +14,18 @@ export default new Vuex.Store({
     carts: null,
   },
   mutations: {
-    fetchAllProducts(state, payload) {
+    FETCH_ALL_PRODUCTS(state, payload) {
       state.products = [...payload];
     },
-    login(state, payload) {
+    LOGIN(state) {
       state.isLoggedIn = true;
-      state.currentUser = payload;
     },
-    logout(state) {
+    LOGOUT(state) {
       state.isLoggedIn = false;
       state.currentUser = null;
+    },
+    SET_CURRENT_USER(state, payload) {
+      state.currentUser = { ...payload };
     },
   },
   actions: {
@@ -33,7 +35,7 @@ export default new Vuex.Store({
           method: 'GET',
         })
         .then((result) => {
-          commit('fetchAllProducts', result.data);
+          commit('FETCH_ALL_PRODUCTS', result.data);
         })
         .catch((err) => {
           console.log(err.response);
@@ -41,14 +43,14 @@ export default new Vuex.Store({
     },
     checkLoginStatus({ commit }) {
       if (localStorage.getItem('token')) {
-        commit('login');
+        commit('LOGIN');
       } else {
-        commit('logout');
+        commit('LOGOUT');
       }
     },
     logout({ commit }) {
       localStorage.clear();
-      commit('logout');
+      commit('LOGOUT');
     },
   },
   modules: {
