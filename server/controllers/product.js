@@ -36,16 +36,16 @@ class ProductController {
 
   static updateAll(req, res, next) {
     const { name, description, image_url, price, stock } = req.body;
-    Product.update({ name, description, image_url, price, stock }, { where: { id: Number(req.params.product_id) } })
+    console.log(req.body);
+    const ProductId = Number(req.params.product_id);
+    Product.update({ name, description, image_url, price, stock }, { where: { id: ProductId } })
       .then(result => {
-        res.status(200).json({ name, description, image_url, price, stock });
+        res.status(200).json({ id: ProductId, name, description, image_url, price, stock });
       })
       .catch(err => {
         next(err);
       });
   }
-
-  // patch here
 
   static destroy(req, res, next) {
     Product.destroy({ where: { id: Number(req.params.product_id) } })

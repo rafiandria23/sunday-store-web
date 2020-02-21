@@ -6,6 +6,7 @@ import LoginForm from '@/components/LoginForm.vue';
 import ProductContainer from '@/components/ProductContainer.vue';
 import ProductDetail from '@/components/ProductDetail.vue';
 import Dashboard from '@/components/Dashboard.vue';
+import EditProduct from '@/components/EditProduct.vue';
 import Home from '../views/Home.vue';
 
 const api = axios.create({ baseURL: 'http://localhost:3000/api' });
@@ -55,6 +56,19 @@ const routes = [
     name: 'Dashboard',
     component: Dashboard,
     meta: { requiresAuth: true },
+    children: [
+      {
+        path: 'products',
+        name: 'Products',
+        component: ProductContainer,
+      },
+      {
+        path: 'edit-product/:ProductId',
+        name: 'Edit Product',
+        component: EditProduct,
+        props: true,
+      },
+    ]
   },
   {
     path: '/products',

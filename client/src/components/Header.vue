@@ -30,11 +30,11 @@
         </ul>
         <div class="form-inline my-2 my-lg-0">
         <ul class="navbar-nav mr-auto">
-          <li v-if="!isLoggedIn()" class="nav-item">
+          <li v-if="!isLoggedIn()" class="nav-item d-flex">
             <router-link class="nav-link" to="/register">Register</router-link>
             <p class="nav-link">or</p>
           </li>
-          <li class="nav-item">
+          <li class="nav-item ml-1">
             <router-link
             v-if="!isLoggedIn()"
             class="btn btn-outline-dark my-2 my-sm-0"

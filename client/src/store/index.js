@@ -44,6 +44,7 @@ export default new Vuex.Store({
     checkLoginStatus({ commit }) {
       if (localStorage.getItem('token')) {
         commit('LOGIN');
+        commit('SET_CURRENT_USER', JSON.parse(localStorage.getItem('currentUser')));
       } else {
         commit('LOGOUT');
       }

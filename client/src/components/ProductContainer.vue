@@ -15,6 +15,12 @@
           :to="{name: 'Product', params: {ProductId: product.id}}">
           See Product
         </router-link>
+        <router-link
+          v-if="checkRole()"
+          class="btn btn-secondary"
+          :to="{name: 'Edit Product',  params: {ProductId: product.id}, }">
+          Edit Product
+        </router-link>
       </div>
     </div>
   </div>
@@ -27,6 +33,18 @@ export default {
     getAllProducts() {
       return this.$store.state.products;
     },
+    checkRole() {
+      if (this.$store.state.currentUser) {
+        switch (this.$store.state.currentUser.role) {
+          case 'Super Admin':
+            return true;
+        
+          default:
+            return false;
+        }
+      }
+      return false;
+    }
   },
 };
 </script>

@@ -10,7 +10,6 @@ productRouter.get("/:product_id", ProductController.findOne);
 productRouter.use(authenticate);
 productRouter.post("/", Authorize.productSuperAdmin, ProductController.create);
 productRouter.put("/:product_id", Authorize.productSuperAdmin, ProductController.updateAll);
-// productRouter.patch("/:product_id", ProductController.updatePart);
 productRouter.delete("/:product_id", Authorize.productSuperAdmin, ProductController.destroy);
 
 module.exports = productRouter;
