@@ -15,10 +15,10 @@ let socket = null;
 
 if (process.env.NODE_ENV !== 'production') {
   Vue.prototype.$axios = axios.create({ baseURL: 'http://localhost:3000/api' }); // process.env.DEV_API_URL
-  socket = io.connect('http://localhost:3000');
+  socket = io('http://localhost:3000');
 } else {
   Vue.prototype.$axios = axios.create({ baseURL: 'https://sunday-store.herokuapp.com/api' });
-  socket = io.connect('https://sunday-store.herokuapp.com');
+  socket = io('https://sunday-store.herokuapp.com');
 }
 
 Vue.use(VueSocketIOExt, socket);
@@ -27,4 +27,9 @@ new Vue({
   router,
   store,
   render: (h) => h(App),
+  watch: {
+    '$route'(to, from) {
+      document.title = `Sunday Store | ${to.meta.title}` || 'Sunday Store';
+    }
+  }
 }).$mount('#app');

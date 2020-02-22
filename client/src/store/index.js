@@ -2,7 +2,13 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import axios from 'axios';
 
-const api = axios.create({ baseURL: 'http://localhost:3000/api' });
+let api = null;
+
+if (process.env.NODE_ENV !== 'production') {
+  api = axios.create({ baseURL: 'http://localhost:3000/api' });
+} else {
+  api = axios.create({ baseURL: 'https://sunday-store.herokuapp.com/api' });
+}
 
 Vue.use(Vuex);
 

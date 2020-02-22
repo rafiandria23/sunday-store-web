@@ -10,7 +10,13 @@ import AddProduct from '@/components/AddProduct.vue';
 import EditProduct from '@/components/EditProduct.vue';
 import Home from '../views/Home.vue';
 
-const api = axios.create({ baseURL: 'http://localhost:3000/api' });
+let api = null;
+
+if (process.env.NODE_ENV !== 'production') {
+  api = axios.create({ baseURL: 'http://localhost:3000/api' });
+} else {
+  api = axios.create({ baseURL: 'https://sunday-store.herokuapp.com/api' });
+}
 
 Vue.use(VueRouter);
 
@@ -30,69 +36,102 @@ const beforeEnter = async (to, from, next) => {
 
 const routes = [
   {
-    path: '/',
-    name: 'Home',
+    path: "/",
+    name: "Home",
     component: Home,
+    meta: {
+      title: "Home"
+    }
   },
   {
-    path: '/register',
-    name: 'Register',
+    path: "/register",
+    name: "Register",
     component: RegisterForm,
-    beforeEnter,
+    meta: {
+      title: "Register"
+    },
+    beforeEnter
   },
   {
-    path: '/login',
-    name: 'Login',
+    path: "/login",
+    name: "Login",
     component: LoginForm,
-    beforeEnter,
+    meta: {
+      title: "Login"
+    },
+    beforeEnter
   },
   {
-    path: '/users/:UserId',
-    name: 'User',
+    path: "/users/:UserId",
+    name: "User",
     props: true,
-    meta: { requiresAuth: true },
+    meta: {
+      requiresAuth: true,
+      title: "Profile"
+    }
   },
   {
-    path: '/dashboard',
-    name: 'Dashboard',
+    path: "/dashboard",
+    name: "Dashboard",
     component: Dashboard,
-    meta: { requiresAuth: true },
+    meta: {
+      requiresAuth: true,
+      title: "Dashboard"
+    },
     children: [
       {
-        path: 'products',
-        name: 'Products',
+        path: "products",
+        name: "Products",
         component: ProductContainer,
+        meta: {
+          title: "Products"
+        }
       },
       {
-        path: 'edit-product/:ProductId',
-        name: 'Edit Product',
+        path: "edit-product/:ProductId",
+        name: "Edit Product",
         component: EditProduct,
         props: true,
+        meta: {
+          title: "Edit Product"
+        }
       },
       {
-        path: 'add-product',
-        name: 'Add Product',
+        path: "add-product",
+        name: "Add Product",
         component: AddProduct,
         props: true,
-      },
-    ],
+        meta: {
+          title: "Add Product"
+        }
+      }
+    ]
   },
   {
-    path: '/products',
-    name: 'Products',
+    path: "/products",
+    name: "Products",
     component: ProductContainer,
+    meta: {
+      title: "Products"
+    }
   },
   {
-    path: '/products/:ProductId',
-    name: 'Product',
+    path: "/products/:ProductId",
+    name: "Product",
     component: ProductDetail,
     props: true,
+    meta: {
+      title: "Product Detail"
+    }
   },
   {
-    path: '/carts',
-    name: 'Carts',
+    path: "/carts",
+    name: "Carts",
     meta: { requiresAuth: true },
-  },
+    meta: {
+      title: "Carts"
+    }
+  }
 ];
 
 const router = new VueRouter({
