@@ -12,9 +12,22 @@ export default {
   components: {
     Header,
   },
+  sockets: {
+    connect() {
+      // console.log('Socket is connected!');
+    },
+    reloadProducts(data) {
+      this.$store.dispatch('requestAllProducts');
+      this.$store.dispatch('checkLoginStatus');
+      this.$router.push({ name: 'Products' });
+    },
+  },
   created() {
     this.$store.dispatch('requestAllProducts');
     this.$store.dispatch('checkLoginStatus');
+  },
+  beforeMount() {
+    this.$store.dispatch('checkRole');
   },
 };
 </script>

@@ -10,6 +10,7 @@ export default new Vuex.Store({
   state: {
     isLoggedIn: false,
     currentUser: null,
+    isSuperAdmin: false,
     products: null,
     carts: null,
   },
@@ -22,10 +23,14 @@ export default new Vuex.Store({
     },
     LOGOUT(state) {
       state.isLoggedIn = false;
+      state.isSuperAdmin = false;
       state.currentUser = null;
     },
     SET_CURRENT_USER(state, payload) {
       state.currentUser = { ...payload };
+    },
+    SET_SUPER_ADMIN(state) {
+      state.isSuperAdmin = true;
     },
   },
   actions: {
@@ -45,6 +50,7 @@ export default new Vuex.Store({
       if (localStorage.getItem('token')) {
         commit('LOGIN');
         commit('SET_CURRENT_USER', JSON.parse(localStorage.getItem('currentUser')));
+        this.dispatch('checkRole');
       } else {
         commit('LOGOUT');
       }
@@ -53,7 +59,18 @@ export default new Vuex.Store({
       localStorage.clear();
       commit('LOGOUT');
     },
+    checkRole({ commit }) {
+      if (this.state.currentUser) {
+        switch (this.state.currentUser.role) {
+          case 'Super Admin':
+            commit('SET_SUPER_ADMIN');
+            break;
+
+          default:
+            break;
+        }
+      }
+    },
   },
-  modules: {
-  },
+  modules: {},
 });

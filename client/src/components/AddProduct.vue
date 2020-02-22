@@ -1,10 +1,15 @@
 <template>
   <div class="edit-product">
-    <img :src="productData.image_url" :alt="productData.name" class="img-thumbnail mb-4" />
+    <img :src="productData.image_url" :alt="productData.name" class="img-thumbnail mb-4">
     <form @submit.prevent="editProduct">
       <div class="form-group">
         <label for="edit-product-name">Product Name</label>
-        <input type="text" class="form-control" id="edit-product-name" v-model="productData.name" />
+        <input
+          type="text"
+          class="form-control"
+          id="edit-product-name"
+          v-model="productData.name"
+        />
       </div>
       <div class="form-group">
         <label for="edit-product-description">Product Description</label>
@@ -43,33 +48,24 @@
           v-model="productData.stock"
         />
       </div>
-      <div class="d-flex justify-content-between mt-5">
-        <button type="submit" class="btn btn-primary">Edit Product</button>
-        <h6 type="button" @click="deleteProduct" class="text-danger">Delete Product</h6>
-      </div>
+      <button type="submit" class="btn btn-primary">Add Product</button>
     </form>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'EditProduct',
+  name: 'AddProduct',
   data() {
     return {
-      productData: {},
-      ProductId: this.$route.params.ProductId,
+      productData: {
+        name: null,
+        description: null,
+        image_url: null,
+        price: null,
+        stock: null,
+      },
     };
-  },
-  beforeCreate() {
-    const { ProductId } = this.$route.params;
-    this.$axios
-      .get(`/products/${ProductId}`)
-      .then(({ data }) => {
-        this.productData = { ...data };
-      })
-      .catch((err) => {
-        console.log(err.response);
-      });
   },
   methods: {
     editProduct() {
@@ -93,42 +89,18 @@ export default {
 
       if (passed.length == Object.keys(this.productData).length) {
         const token = localStorage.getItem('token');
-        this.$axios
-          .put(`products/${this.ProductId}`, { ...this.productData }, { headers: { token } })
+        this.$axios.post('/products', { ...this.productData }, { headers: { token } })
           .then(({ data }) => {
-            // this.$router.push({name: 'Products'});
+          // this.$router.push({name: 'Products'});
           })
           .catch((err) => {
             console.log(err.response);
           });
       }
     },
-    deleteProduct() {
-      this.$Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!',
-      }).then((result) => {
-        if (result.value) {
-          const token = localStorage.getItem('token');
-          this.$axios
-            .delete(`products/${this.ProductId}`, { headers: { token } })
-            .then(({ data }) => {
-              // this.$router.push({name: 'Products'});
-            })
-            .catch((err) => {
-              console.log(err.response);
-            });
-          this.$Swal.fire('Deleted!', 'Product has been deleted.', 'success');
-        }
-      });
-    },
   },
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+</style>

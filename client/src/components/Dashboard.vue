@@ -17,7 +17,7 @@
           </p>
         </div>
         <ul class="list-group list-group-flush">
-          <router-link class="list-group-item" :to="{name: 'Products'}">Product List</router-link>
+          <router-link v-if="checkRole()" class="list-group-item" :to="{name: 'Products'}">Product List</router-link>
         </ul>
         <div class="card-body">
           <router-link
@@ -36,36 +36,6 @@
     </div>
     <div class="content col-9">
       <router-view/>
-        <!-- <div class="list-group">
-          <a href="#" class="list-group-item list-group-item-action active">
-            <div class="d-flex w-100 justify-content-between">
-              <h5 class="mb-1">List group item heading</h5>
-              <small>3 days ago</small>
-            </div>
-            <p class="mb-1">Donec id elit non mi porta
-            gravida at eget metus. Maecenas sed diam
-            eget risus varius blandit.</p>
-            <small>Donec id elit non mi porta.</small>
-          </a>
-          <a href="#" class="list-group-item list-group-item-action">
-            <div class="d-flex w-100 justify-content-between">
-              <h5 class="mb-1">List group item heading</h5>
-              <small class="text-muted">3 days ago</small>
-            </div>
-            <p class="mb-1">Donec id elit non mi porta gravida at
-            eget metus. Maecenas sed diam eget risus varius blandit.</p>
-            <small class="text-muted">Donec id elit non mi porta.</small>
-          </a>
-          <a href="#" class="list-group-item list-group-item-action">
-            <div class="d-flex w-100 justify-content-between">
-              <h5 class="mb-1">List group item heading</h5>
-              <small class="text-muted">3 days ago</small>
-            </div>
-            <p class="mb-1">Donec id elit non mi porta gravida at
-            eget metus. Maecenas sed diam eget risus varius blandit.</p>
-            <small class="text-muted">Donec id elit non mi porta.</small>
-          </a>
-        </div> -->
     </div>
   </div>
 </template>
@@ -83,16 +53,7 @@ export default {
       };
     },
     checkRole() {
-      if (this.$store.state.currentUser) {
-        switch (this.$store.state.currentUser.role) {
-          case 'Super Admin':
-            return true;
-        
-          default:
-            return false;
-        }
-      }
-      return false;
+      return this.$store.state.isSuperAdmin;
     },
   },
 };

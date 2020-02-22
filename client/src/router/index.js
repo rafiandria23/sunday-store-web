@@ -6,6 +6,7 @@ import LoginForm from '@/components/LoginForm.vue';
 import ProductContainer from '@/components/ProductContainer.vue';
 import ProductDetail from '@/components/ProductDetail.vue';
 import Dashboard from '@/components/Dashboard.vue';
+import AddProduct from '@/components/AddProduct.vue';
 import EditProduct from '@/components/EditProduct.vue';
 import Home from '../views/Home.vue';
 
@@ -68,7 +69,13 @@ const routes = [
         component: EditProduct,
         props: true,
       },
-    ]
+      {
+        path: 'add-product',
+        name: 'Add Product',
+        component: AddProduct,
+        props: true,
+      },
+    ],
   },
   {
     path: '/products',

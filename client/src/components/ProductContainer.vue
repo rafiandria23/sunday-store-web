@@ -34,17 +34,8 @@ export default {
       return this.$store.state.products;
     },
     checkRole() {
-      if (this.$store.state.currentUser) {
-        switch (this.$store.state.currentUser.role) {
-          case 'Super Admin':
-            return true;
-        
-          default:
-            return false;
-        }
-      }
-      return false;
-    }
+      return this.$store.state.isSuperAdmin;
+    },
   },
 };
 </script>

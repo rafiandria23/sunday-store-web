@@ -27,6 +27,7 @@ class ProductController {
     const { name, description, image_url, price, stock } = req.body;
     Product.create({ name, description, image_url, price, stock })
       .then(result => {
+        req.io.emit('reloadProducts');
         res.status(201).json(result);
       })
       .catch(err => {
@@ -40,6 +41,7 @@ class ProductController {
     const ProductId = Number(req.params.product_id);
     Product.update({ name, description, image_url, price, stock }, { where: { id: ProductId } })
       .then(result => {
+        req.io.emit('reloadProducts');
         res.status(200).json({ id: ProductId, name, description, image_url, price, stock });
       })
       .catch(err => {
@@ -50,6 +52,7 @@ class ProductController {
   static destroy(req, res, next) {
     Product.destroy({ where: { id: Number(req.params.product_id) } })
       .then(result => {
+        req.io.emit('reloadProducts');
         res.status(200).json({ message: "Successfully deleted product!" });
       })
       .catch(err => {
