@@ -1,6 +1,6 @@
 "use strict";
 
-if (process.env.NODE_ENV == "development" || "test") {
+if (process.env.NODE_ENV != "production") {
   require("dotenv").config();
 }
 
