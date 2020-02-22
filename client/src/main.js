@@ -15,10 +15,10 @@ let socket = null;
 
 if (process.env.NODE_ENV !== 'production') {
   Vue.prototype.$axios = axios.create({ baseURL: 'http://localhost:3000/api' }); // process.env.DEV_API_URL
-  socket = io('http://localhost:3000/api');
+  socket = io.connect('http://localhost:3000');
 } else {
-  Vue.prototype.$axios = axios.create({ baseURL: process.env.API_URL });
-  socket = io(process.env.API_URL);
+  Vue.prototype.$axios = axios.create({ baseURL: 'https://sunday-store.herokuapp.com/api' });
+  socket = io.connect('https://sunday-store.herokuapp.com');
 }
 
 Vue.use(VueSocketIOExt, socket);
