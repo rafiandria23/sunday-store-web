@@ -8,7 +8,8 @@
     "migrate": "sequelize db:migrate",
     "migrate:reset": "sequelize db:migrate:undo:all && npm run migrate",
     "test": "cross-env NODE_ENV=test jest --forceExit",
-    "pretest": "cross-env NODE_ENV=test npm run migrate:reset"
+    "pretest": "cross-env NODE_ENV=test npm run migrate:reset",
+    "start": "node app.js"
   },
   "keywords": [
     "express",
