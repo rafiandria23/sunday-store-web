@@ -8,8 +8,8 @@
             <router-link id="home" class="nav-link" to="/" exact>Home</router-link>
           </li>
           <li class="nav-item">
-            <router-link v-if="checkRole()" class="nav-link" to="/dashboard/products">Dashboard</router-link>
-            <router-link v-else class="nav-link" to="/dashboard">Dashboard</router-link>
+            <router-link v-if="checkRole() && isLoggedIn()" class="nav-link" to="/dashboard/products">Dashboard</router-link>
+            <router-link v-if="!checkRole() && isLoggedIn()" class="nav-link" to="/dashboard">Dashboard</router-link>
           </li>
           <li class="nav-item dropdown">
             <!-- <a

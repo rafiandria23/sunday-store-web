@@ -10,15 +10,17 @@ import store from './store';
 Vue.config.productionTip = false;
 
 Vue.prototype.$Swal = Swal;
-Vue.prototype.$axios = axios.create({ baseURL: 'http://localhost:3000/api' }); // process.env.DEV_API_URL
 
-// if (process.env.NODE_ENV === 'development' || 'test') {
-//   Vue.prototype.axios = axios({ baseURL: 'http://localhost:3000/api' }); // process.env.DEV_API_URL
-// } else {
-//   Vue.prototype.axios = axios({ baseURL: process.env.API_URL });
-// }
+let socket = null;
 
-const socket = io('http://localhost:3000');
+if (process.env.NODE_ENV !== 'production') {
+  Vue.prototype.$axios = axios.create({ baseURL: 'http://localhost:3000/api' }); // process.env.DEV_API_URL
+  socket = io('http://localhost:3000/api');
+} else {
+  Vue.prototype.$axios = axios.create({ baseURL: process.env.API_URL });
+  socket = io(process.env.API_URL);
+}
+
 Vue.use(VueSocketIOExt, socket);
 
 new Vue({
