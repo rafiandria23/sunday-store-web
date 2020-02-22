@@ -10,11 +10,12 @@
         alt="">
         <div class="card-body">
           <h5 class="card-title">{{ this.getUserData().name }}</h5>
-          <p class="card-text">
-            Some quick example text to build
-            on the card title and make up the
-            bulk of the card's content.
-          </p>
+          <div class="card-text">
+            <div>
+              <small>Email</small>
+              <p>{{ this.getUserData().email }}</p>
+            </div>
+          </div>
         </div>
         <ul class="list-group list-group-flush">
           <router-link v-if="checkRole()" class="list-group-item" :to="{name: 'Products'}">Product List</router-link>
@@ -65,13 +66,16 @@ export default {
     justify-content: space-between;
 
     .sidebar {
-      background-color: blue;
       padding: 2em;
     }
 
     .content {
-      background-color: black;
       padding: 3em;
+    }
+
+    .card-text div {
+      display: flex;
+      justify-content: space-evenly;
     }
   }
 </style>

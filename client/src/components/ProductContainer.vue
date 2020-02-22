@@ -11,13 +11,13 @@
         <h5 class="card-title">{{ product.name }}</h5>
         <p class="card-text">{{ product.description }}</p>
         <router-link
-          class="btn btn-primary"
+          class="btn btn-primary m-1"
           :to="{name: 'Product', params: {ProductId: product.id}}">
           See Product
         </router-link>
         <router-link
           v-if="checkRole()"
-          class="btn btn-secondary"
+          class="btn btn-secondary m-1"
           :to="{name: 'Edit Product',  params: {ProductId: product.id}, }">
           Edit Product
         </router-link>

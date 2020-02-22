@@ -7,7 +7,7 @@ module.exports = {
     return queryInterface.bulkInsert('Users', [{
       name: 'Adam Rafiandri',
       email: 'adam@sunday.com',
-      password: encryptPassword('123'),
+      password: encryptPassword(process.env.SUPER_ADMIN_PASSWORD),
       role: 'Super Admin',
       createdAt: new Date(),
       updatedAt: new Date()

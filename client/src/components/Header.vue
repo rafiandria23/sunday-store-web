@@ -8,10 +8,11 @@
             <router-link id="home" class="nav-link" to="/" exact>Home</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/dashboard">Dashboard</router-link>
+            <router-link v-if="checkRole()" class="nav-link" to="/dashboard/products">Dashboard</router-link>
+            <router-link v-else class="nav-link" to="/dashboard">Dashboard</router-link>
           </li>
           <li class="nav-item dropdown">
-            <a
+            <!-- <a
               class="nav-link dropdown-toggle"
               href="#"
               id="navbarDropdown"
@@ -25,7 +26,7 @@
               <a class="dropdown-item" href="#">Another action</a>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="#">Something else here</a>
-            </div>
+            </div> -->
           </li>
         </ul>
         <div class="form-inline my-2 my-lg-0">
@@ -62,6 +63,9 @@ export default {
       this.$store.dispatch('logout');
       this.$router.push({ name: 'Login' });
       this.$store.dispatch('checkLoginStatus');
+    },
+    checkRole() {
+      return this.$store.state.isSuperAdmin;
     },
   },
 };
