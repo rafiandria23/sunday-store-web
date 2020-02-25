@@ -32,7 +32,7 @@
         />
       </div>
       <button type="submit" class="btn btn-primary">Register</button>
-      <Spinner v-if="isLoading"/>
+      <Spinner v-if="isLoading" />
     </form>
   </div>
 </template>
@@ -42,7 +42,7 @@ import Spinner from '@/components/Spinner.vue';
 
 export default {
   components: {
-    Spinner,
+    Spinner
   },
   data() {
     return {
@@ -50,50 +50,49 @@ export default {
       userData: {
         user_fullname: '',
         user_email: '',
-        user_password: '',
-      },
+        user_password: ''
+      }
     };
   },
   methods: {
     register() {
-      this.$axios.post('/users/register', {
-        name: this.userData.user_fullname,
-        email: this.userData.user_email,
-        password: this.userData.user_password,
-      })
-        .then((result) => {
+      this.$axios
+        .post('/users/register', {
+          name: this.userData.user_fullname,
+          email: this.userData.user_email,
+          password: this.userData.user_password
+        })
+        .then(result => {
           const Toast = this.$Swal.mixin({
             toast: true,
             position: 'top-end',
             showConfirmButton: false,
             timer: 3000,
             timerProgressBar: true,
-            onOpen: (toast) => {
+            onOpen: toast => {
               toast.addEventListener('mouseenter', this.$Swal.stopTimer);
               toast.addEventListener('mouseleave', this.$Swal.resumeTimer);
-            },
+            }
           });
           Toast.fire({
             icon: 'success',
             title: 'Successfully registered!',
-            text: result.data.message,
+            text: result.data.message
           });
           this.$router.push({ name: 'Login' });
         })
-        .catch((err) => {
+        .catch(err => {
           this.isLoading = false;
           this.$Swal.fire({
             icon: 'error',
             title: 'Validation Error!',
-            html: err.response.data.message.join('<br>'),
+            html: err.response.data.message.join('<br>')
           });
           console.log(err.response);
         });
-    },
-  },
+    }
+  }
 };
 </script>
 
-<style lang="sass" scoped>
-
-</style>
+<style lang="sass" scoped></style>

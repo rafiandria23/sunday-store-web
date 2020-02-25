@@ -30,16 +30,22 @@ class UserController {
     } else if (!email && !password) {
       next(createError(400, [emailError, passwordError]));
     } else {
-      User.findOne({ where: { email } })
+      User.findOne({ where: { email }, include: ['Carts'] })
         .then(result => {
           if (decryptPassword(password, result.password)) {
-            const { id, name, email, role } = result;
+            const { id, name, email, role, Carts } = result;
             const generatedToken = generateToken({ id, name, email });
-            res.status(200).json({ token: generatedToken, userData: {id, name, email, role} });
+            res
+              .status(200)
+              .json({
+                token: generatedToken,
+                userData: { id, name, email, role, Carts }
+              });
+          } else {
+            next(createError(400, { message: 'Wrong email or password!' }));
           }
         })
         .catch(err => {
-          console.log(err);
           next(err);
         });
     }

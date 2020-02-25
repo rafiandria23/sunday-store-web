@@ -23,7 +23,7 @@
         />
       </div>
       <button type="submit" class="btn btn-primary">Login</button>
-      <Spinner v-if="isLoading"/>
+      <Spinner v-if="isLoading" />
     </form>
   </div>
 </template>
@@ -33,24 +33,25 @@ import Spinner from '@/components/Spinner.vue';
 
 export default {
   components: {
-    Spinner,
+    Spinner
   },
   data() {
     return {
       isLoading: false,
       userData: {
         user_email: '',
-        user_password: '',
-      },
+        user_password: ''
+      }
     };
   },
   methods: {
     login() {
       this.isLoading = true;
-      this.$axios.post('/users/login', {
-        email: this.userData.user_email,
-        password: this.userData.user_password,
-      })
+      this.$axios
+        .post('/users/login', {
+          email: this.userData.user_email,
+          password: this.userData.user_password
+        })
         .then(({ data }) => {
           this.isLoading = false;
           const Toast = this.$Swal.mixin({
@@ -59,36 +60,36 @@ export default {
             showConfirmButton: false,
             timer: 3000,
             timerProgressBar: true,
-            onOpen: (toast) => {
+            onOpen: toast => {
               toast.addEventListener('mouseenter', this.$Swal.stopTimer);
               toast.addEventListener('mouseleave', this.$Swal.resumeTimer);
-            },
+            }
           });
           Toast.fire({
             icon: 'success',
-            title: 'Successfully logged in!',
+            title: 'Successfully logged in!'
           });
           localStorage.setItem('token', data.token);
           localStorage.setItem('currentUser', JSON.stringify(data.userData));
           this.$store.dispatch('checkLoginStatus');
           this.$router.push({ name: 'Home' });
         })
-        .catch((err) => {
+        .catch(err => {
           this.isLoading = false;
           this.$Swal.fire({
             icon: 'error',
             title: 'Validation Error!',
-            text: err.response.data.message,
+            text: err.response.data.message
           });
           console.log(err.response);
         });
-    },
-  },
+    }
+  }
 };
 </script>
 
 <style lang="scss" scoped>
-  .login-form {
-    max-width: 400px;
-  }
+.login-form {
+  max-width: 400px;
+}
 </style>

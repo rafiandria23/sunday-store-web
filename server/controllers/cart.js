@@ -36,12 +36,12 @@ class CartController {
 
   static create(req, res, next) {
     const cartData = {
-      UserId: req.user.id,
-      ProductId: req.body.product_id
+      UserId: Number(req.user.id),
+      ProductId: Number(req.body.ProductId)
     }
     Cart.create(cartData)
       .then(result => {
-        res.status(201).json({ carts: result });
+        res.status(201).json({ carts: result, message: "Successfully added to cart! Happy shopping!" });
       })
       .catch(err => {
         next(err);

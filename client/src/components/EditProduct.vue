@@ -57,7 +57,7 @@ export default {
   data() {
     return {
       productData: {},
-      ProductId: this.$route.params.ProductId,
+      ProductId: this.$route.params.ProductId
     };
   },
   beforeCreate() {
@@ -67,7 +67,7 @@ export default {
       .then(({ data }) => {
         this.productData = { ...data };
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err.response);
       });
   },
@@ -87,7 +87,7 @@ export default {
         this.$Swal.fire({
           icon: 'error',
           title: 'Validation Error!',
-          html: `Product <b>${failed[0]}</b> cannot be empty or null!`,
+          html: `Product <b>${failed[0]}</b> cannot be empty or null!`
         });
       }
 
@@ -98,36 +98,38 @@ export default {
           .then(({ data }) => {
             // this.$router.push({name: 'Products'});
           })
-          .catch((err) => {
+          .catch(err => {
             console.log(err.response);
           });
       }
     },
     deleteProduct() {
-      this.$Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!',
-      }).then((result) => {
-        if (result.value) {
-          const token = localStorage.getItem('token');
-          this.$axios
-            .delete(`products/${this.ProductId}`, { headers: { token } })
-            .then(({ data }) => {
-              // this.$router.push({name: 'Products'});
-            })
-            .catch((err) => {
-              console.log(err.response);
-            });
-          this.$Swal.fire('Deleted!', 'Product has been deleted.', 'success');
-        }
-      });
-    },
-  },
+      this.$Swal
+        .fire({
+          title: 'Are you sure?',
+          text: "You won't be able to revert this!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, delete it!'
+        })
+        .then(result => {
+          if (result.value) {
+            const token = localStorage.getItem('token');
+            this.$axios
+              .delete(`products/${this.ProductId}`, { headers: { token } })
+              .then(({ data }) => {
+                // this.$router.push({name: 'Products'});
+              })
+              .catch(err => {
+                console.log(err.response);
+              });
+            this.$Swal.fire('Deleted!', 'Product has been deleted.', 'success');
+          }
+        });
+    }
+  }
 };
 </script>
 

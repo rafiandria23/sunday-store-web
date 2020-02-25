@@ -1,34 +1,35 @@
-import Vue from 'vue';
-import VueRouter from 'vue-router';
-import axios from 'axios';
-import RegisterForm from '@/components/RegisterForm.vue';
-import LoginForm from '@/components/LoginForm.vue';
-import ProductContainer from '@/components/ProductContainer.vue';
-import ProductDetail from '@/components/ProductDetail.vue';
-import Dashboard from '@/components/Dashboard.vue';
-import AddProduct from '@/components/AddProduct.vue';
-import EditProduct from '@/components/EditProduct.vue';
-import Home from '../views/Home.vue';
+import Vue from "vue";
+import VueRouter from "vue-router";
+import axios from "axios";
+import RegisterForm from "@/components/RegisterForm.vue";
+import LoginForm from "@/components/LoginForm.vue";
+import ProductContainer from "@/components/ProductContainer.vue";
+import ProductDetail from "@/components/ProductDetail.vue";
+import Dashboard from "@/components/Dashboard.vue";
+import AddProduct from "@/components/AddProduct.vue";
+import EditProduct from "@/components/EditProduct.vue";
+import CartContainer from "@/components/CartContainer.vue";
+import Home from "../views/Home.vue";
 
 let api = null;
 
-if (process.env.NODE_ENV !== 'production') {
-  api = axios.create({ baseURL: 'http://localhost:3000/api' });
+if (process.env.NODE_ENV !== "production") {
+  api = axios.create({ baseURL: "http://localhost:3000/api" });
 } else {
-  api = axios.create({ baseURL: 'https://sunday-store.herokuapp.com/api' });
+  api = axios.create({ baseURL: "https://sunday-store.herokuapp.com/api" });
 }
 
 Vue.use(VueRouter);
 
 const beforeEnter = async (to, from, next) => {
-  if (localStorage.getItem('token')) {
+  if (localStorage.getItem("token")) {
     await api
-      .get('/users/check', { headers: { token: localStorage.getItem('token') } })
+      .get("/users/check", { headers: { token: localStorage.getItem("token") } })
       .then(({ data }) => {
         console.log(data.message);
         next({ path: from.path });
       })
-      .catch((err) => console.log(err.response));
+      .catch(err => console.log(err.response));
   } else {
     next();
   }
@@ -88,6 +89,14 @@ const routes = [
         }
       },
       {
+        path: "carts",
+        name: "Carts",
+        component: CartContainer,
+        meta: {
+          title: "Carts"
+        }
+      },
+      {
         path: "edit-product/:ProductId",
         name: "Edit Product",
         component: EditProduct,
@@ -123,34 +132,27 @@ const routes = [
     meta: {
       title: "Product Detail"
     }
-  },
-  {
-    path: "/carts",
-    name: "Carts",
-    meta: { requiresAuth: true },
-    meta: {
-      title: "Carts"
-    }
   }
 ];
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: "history",
   base: process.env.BASE_URL,
-  routes,
+  routes
 });
 
 router.beforeEach((to, from, next) => {
-  if (to.matched.some((record) => record.meta.requiresAuth)) {
-    if (localStorage.getItem('token')) {
-      api.get('/users/check', { headers: { token: localStorage.getItem('token') } })
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (localStorage.getItem("token")) {
+      api
+        .get("/users/check", { headers: { token: localStorage.getItem("token") } })
         .then(({ data }) => {
           console.log(data.message);
           next();
         })
-        .catch((err) => console.log(err.response));
+        .catch(err => console.log(err.response));
     } else {
-      next({ name: 'Login' });
+      next({ name: "Login" });
     }
   } else {
     next();

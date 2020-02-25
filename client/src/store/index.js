@@ -18,7 +18,7 @@ export default new Vuex.Store({
     currentUser: null,
     isSuperAdmin: false,
     products: null,
-    carts: null,
+    carts: null
   },
   mutations: {
     FETCH_ALL_PRODUCTS(state, payload) {
@@ -37,18 +37,18 @@ export default new Vuex.Store({
     },
     SET_SUPER_ADMIN(state) {
       state.isSuperAdmin = true;
-    },
+    }
   },
   actions: {
     requestAllProducts({ commit }) {
       api
         .get('/products', {
-          method: 'GET',
+          method: 'GET'
         })
-        .then((result) => {
+        .then(result => {
           commit('FETCH_ALL_PRODUCTS', result.data);
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err.response);
         });
     },
@@ -76,7 +76,7 @@ export default new Vuex.Store({
             break;
         }
       }
-    },
+    }
   },
-  modules: {},
+  modules: {}
 });

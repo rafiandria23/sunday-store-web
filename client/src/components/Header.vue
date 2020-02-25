@@ -8,8 +8,15 @@
             <router-link id="home" class="nav-link" to="/" exact>Home</router-link>
           </li>
           <li class="nav-item">
-            <router-link v-if="checkRole() && isLoggedIn()" class="nav-link" to="/dashboard/products">Dashboard</router-link>
-            <router-link v-if="!checkRole() && isLoggedIn()" class="nav-link" to="/dashboard">Dashboard</router-link>
+            <router-link
+              v-if="checkRole() && isLoggedIn()"
+              class="nav-link"
+              to="/dashboard/products"
+              >Dashboard</router-link
+            >
+            <router-link v-if="!checkRole() && isLoggedIn()" class="nav-link" to="/dashboard"
+              >Dashboard</router-link
+            >
           </li>
           <li class="nav-item dropdown">
             <!-- <a
@@ -30,22 +37,28 @@
           </li>
         </ul>
         <div class="form-inline my-2 my-lg-0">
-        <ul class="navbar-nav mr-auto">
-          <li v-if="!isLoggedIn()" class="nav-item d-flex">
-            <router-link class="nav-link" to="/register">Register</router-link>
-            <p class="nav-link">or</p>
-          </li>
-          <li class="nav-item ml-1">
-            <router-link
-            v-if="!isLoggedIn()"
-            class="btn btn-outline-dark my-2 my-sm-0"
-            to="/login">Login</router-link>
-            <button
-            v-if="isLoggedIn()" @click="logout" type="button"
-            class="btn btn-outline-dark my-2 my-sm-0"
-            >Logout</button>
-          </li>
-        </ul>
+          <ul class="navbar-nav mr-auto">
+            <li v-if="!isLoggedIn()" class="nav-item d-flex">
+              <router-link class="nav-link" to="/register">Register</router-link>
+              <p class="nav-link">or</p>
+            </li>
+            <li class="nav-item ml-1">
+              <router-link
+                v-if="!isLoggedIn()"
+                class="btn btn-outline-dark my-2 my-sm-0"
+                to="/login"
+                >Login</router-link
+              >
+              <button
+                v-if="isLoggedIn()"
+                @click="logout"
+                type="button"
+                class="btn btn-outline-dark my-2 my-sm-0"
+              >
+                Logout
+              </button>
+            </li>
+          </ul>
         </div>
       </div>
     </nav>
@@ -66,11 +79,9 @@ export default {
     },
     checkRole() {
       return this.$store.state.isSuperAdmin;
-    },
-  },
+    }
+  }
 };
 </script>
 
-<style lang="sass" scoped>
-
-</style>
+<style lang="sass" scoped></style>

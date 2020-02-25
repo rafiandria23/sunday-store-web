@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <Header/>
-    <router-view class="main"/>
+    <Header />
+    <router-view class="main" />
   </div>
 </template>
 
@@ -10,7 +10,7 @@ import Header from '@/components/Header.vue';
 
 export default {
   components: {
-    Header,
+    Header
   },
   sockets: {
     connect() {
@@ -20,7 +20,7 @@ export default {
       this.$store.dispatch('requestAllProducts');
       this.$store.dispatch('checkLoginStatus');
       this.$router.push({ name: 'Products' });
-    },
+    }
   },
   created() {
     this.$store.dispatch('requestAllProducts');
@@ -28,12 +28,12 @@ export default {
   },
   beforeMount() {
     this.$store.dispatch('checkRole');
-  },
+  }
 };
 </script>
 
 <style lang="scss">
-  .main {
-    margin-top: 2em;
-  }
+.main {
+  margin-top: 2em;
+}
 </style>

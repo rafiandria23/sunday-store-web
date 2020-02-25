@@ -6,13 +6,13 @@
 
 <script>
 export default {
-  name: 'Spinner',
+  name: 'Spinner'
 };
 </script>
 
 <style lang="scss" scoped>
-  div {
-    width: 40px;
-    height: 40px;
-  }
+div {
+  width: 40px;
+  height: 40px;
+}
 </style>

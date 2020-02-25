@@ -1,15 +1,10 @@
 <template>
   <div class="edit-product">
-    <img :src="productData.image_url" :alt="productData.name" class="img-thumbnail mb-4">
+    <img :src="productData.image_url" :alt="productData.name" class="img-thumbnail mb-4" />
     <form @submit.prevent="editProduct">
       <div class="form-group">
         <label for="edit-product-name">Product Name</label>
-        <input
-          type="text"
-          class="form-control"
-          id="edit-product-name"
-          v-model="productData.name"
-        />
+        <input type="text" class="form-control" id="edit-product-name" v-model="productData.name" />
       </div>
       <div class="form-group">
         <label for="edit-product-description">Product Description</label>
@@ -63,8 +58,8 @@ export default {
         description: null,
         image_url: null,
         price: null,
-        stock: null,
-      },
+        stock: null
+      }
     };
   },
   methods: {
@@ -83,24 +78,24 @@ export default {
         this.$Swal.fire({
           icon: 'error',
           title: 'Validation Error!',
-          html: `Product <b>${failed[0]}</b> cannot be empty or null!`,
+          html: `Product <b>${failed[0]}</b> cannot be empty or null!`
         });
       }
 
       if (passed.length == Object.keys(this.productData).length) {
         const token = localStorage.getItem('token');
-        this.$axios.post('/products', { ...this.productData }, { headers: { token } })
+        this.$axios
+          .post('/products', { ...this.productData }, { headers: { token } })
           .then(({ data }) => {
-          // this.$router.push({name: 'Products'});
+            // this.$router.push({name: 'Products'});
           })
-          .catch((err) => {
+          .catch(err => {
             console.log(err.response);
           });
       }
-    },
-  },
+    }
+  }
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>
