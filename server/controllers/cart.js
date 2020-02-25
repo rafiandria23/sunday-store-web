@@ -37,11 +37,32 @@ class CartController {
   static create(req, res, next) {
     const cartData = {
       UserId: Number(req.user.id),
-      ProductId: Number(req.body.ProductId)
-    }
-    Cart.create(cartData)
-      .then(result => {
-        res.status(201).json({ carts: result, message: "Successfully added to cart! Happy shopping!" });
+      ProductId: Number(req.body.ProductId),
+      stock: 1
+    };
+
+    Cart.findOne({ where: { ProductId: cartData.ProductId } })
+      .then(foundCart => {
+        if (!foundCart) {
+          return Cart.create(cartData);
+        } else {
+          let cartStock = foundCart.stock;
+          return Cart.update({ stock: cartStock + 1 }, { where: { ProductId: cartData.ProductId } });
+        }
+      })
+      .then(cart => {
+        if (typeof cart.stock !== "undefined") {
+          res
+            .status(200)
+            .json({ message: 'Successfully added to cart! Happy shopping!' });
+        } else {
+          res
+            .status(201)
+            .json({
+              carts: cart,
+              message: 'Successfully added to cart! Happy shopping!'
+            });
+        }
       })
       .catch(err => {
         next(err);

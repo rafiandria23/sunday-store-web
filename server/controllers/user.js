@@ -1,17 +1,17 @@
-"use strict";
+'use strict';
 
-const { User } = require("../models");
-const generateToken = require("../helpers/generate-token");
-const decryptPassword = require("../helpers/decrypt-password");
-const verifyToken = require("../helpers/verify-token");
-const createError = require("http-errors");
+const { User } = require('../models');
+const generateToken = require('../helpers/generate-token');
+const decryptPassword = require('../helpers/decrypt-password');
+const verifyToken = require('../helpers/verify-token');
+const createError = require('http-errors');
 
 class UserController {
   static register(req, res, next) {
     const { name, email, password } = req.body;
     User.create({ name, email, password })
       .then(result => {
-        res.status(201).json({ message: "Please login to continue!" });
+        res.status(201).json({ message: 'Please login to continue!' });
       })
       .catch(err => {
         // res.json(err);
@@ -32,15 +32,15 @@ class UserController {
     } else {
       User.findOne({ where: { email }, include: ['Carts'] })
         .then(result => {
-          if (decryptPassword(password, result.password)) {
+          if (!result) {
+            next(createError(400, { message: 'User not found!' }));
+          } else if (decryptPassword(password, result.password)) {
             const { id, name, email, role, Carts } = result;
             const generatedToken = generateToken({ id, name, email });
-            res
-              .status(200)
-              .json({
-                token: generatedToken,
-                userData: { id, name, email, role, Carts }
-              });
+            res.status(200).json({
+              token: generatedToken,
+              userData: { id, name, email, role, Carts }
+            });
           } else {
             next(createError(400, { message: 'Wrong email or password!' }));
           }
@@ -53,10 +53,10 @@ class UserController {
 
   static check(req, res, next) {
     const { token } = req.headers;
-    const {id, name, email} = verifyToken(token);
+    const { id, name, email } = verifyToken(token);
     User.findOne({ where: { email } })
       .then(result => {
-        res.status(200).json({ message: "Verified!" });
+        res.status(200).json({ message: 'Verified!' });
       })
       .catch(err => {
         next(err);
