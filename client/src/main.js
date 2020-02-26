@@ -39,7 +39,7 @@ if (process.env.NODE_ENV !== "production") {
 Vue.use(VueSocketIOExt, socket);
 
 const getFormatter = async () => {
-  await axios.get("http://ip-api.com/json").then(({ data }) => {
+  await axios.get("https://ip-api.com/json").then(({ data }) => {
     if (data.countryCode === "ID") {
       Vue.prototype.$currencyFormatter = input => {
         const formatter = new Intl.NumberFormat("id-ID", {
