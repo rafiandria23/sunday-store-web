@@ -20,9 +20,9 @@ export default {
       this.$store.dispatch("requestAllProducts");
       this.$store.dispatch("checkLoginStatus");
       if (this.$store.state.isSuperAdmin) {
-        this.$router.push({ name: "Products" });
+        this.$router.push({ name: "Products" }).catch(err => {});
       } else {
-        this.$router.push({name: "Home"});
+        this.$router.push({name: "Home"}).catch(err => {});
       }
     },
     reloadCarts(data) {

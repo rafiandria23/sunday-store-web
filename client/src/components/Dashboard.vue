@@ -16,9 +16,14 @@
           <router-link v-if="checkRole()" class="list-group-item" :to="{ name: 'Products' }"
             >Product List</router-link
           >
-          <router-link v-else class="list-group-item" :to="{ name: 'Carts' }"
+          <div v-else>
+          <router-link class="list-group-item" :to="{ name: 'Carts' }"
             >Cart List</router-link
           >
+          <router-link class="list-group-item" :to="{ name: 'Transactions' }"
+            >Transaction History</router-link
+          >
+          </div>
         </ul>
         <div class="card-body">
           <router-link

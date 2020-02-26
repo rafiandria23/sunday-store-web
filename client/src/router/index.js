@@ -9,6 +9,7 @@ import Dashboard from "@/components/Dashboard.vue";
 import AddProduct from "@/components/AddProduct.vue";
 import EditProduct from "@/components/EditProduct.vue";
 import CartContainer from "@/components/CartContainer.vue";
+import TransactionContainer from "@/components/TransactionContainer.vue";
 import Home from "../views/Home.vue";
 
 let api = null;
@@ -97,6 +98,14 @@ const routes = [
         }
       },
       {
+        path: "transactions",
+        name: "Transactions",
+        component: TransactionContainer,
+        meta: {
+          title: "Transactions"
+        }
+      },
+      {
         path: "edit-product/:ProductId",
         name: "Edit Product",
         component: EditProduct,
@@ -147,7 +156,6 @@ router.beforeEach((to, from, next) => {
       api
         .get("/users/check", { headers: { token: localStorage.getItem("token") } })
         .then(({ data }) => {
-          console.log(data.message);
           next();
         })
         .catch(err => console.log(err.response));

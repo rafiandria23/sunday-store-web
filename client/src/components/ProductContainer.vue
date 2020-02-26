@@ -69,7 +69,7 @@ export default {
             icon: "success",
             title: data.message
           });
-          this.$router.push({ name: "Home" });
+          // this.$router.push({ name: "Home" });
         })
         .catch(err => {
           console.log(err.response);

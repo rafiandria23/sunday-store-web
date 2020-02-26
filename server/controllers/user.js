@@ -30,16 +30,16 @@ class UserController {
     } else if (!email && !password) {
       next(createError(400, [emailError, passwordError]));
     } else {
-      User.findOne({ where: { email }, include: ['Carts'] })
+      User.findOne({ where: { email }, include: ['Carts', "Transactions"] })
         .then(result => {
           if (!result) {
             next(createError(400, { message: 'User not found!' }));
           } else if (decryptPassword(password, result.password)) {
-            const { id, name, email, role, Carts } = result;
+            const { id, name, email, role, Carts, Transactions } = result;
             const generatedToken = generateToken({ id, name, email });
             res.status(200).json({
               token: generatedToken,
-              userData: { id, name, email, role, Carts }
+              userData: { id, name, email, role, Carts, Transactions }
             });
           } else {
             next(createError(400, { message: 'Wrong email or password!' }));
@@ -54,14 +54,14 @@ class UserController {
   static check(req, res, next) {
     const { token } = req.headers;
     const { id, name, email } = verifyToken(token);
-    User.findOne({ where: { email }, include: ["Carts"] })
+    User.findOne({ where: { email }, include: ["Carts", "Transactions"] })
       .then(result => {
-        const { id, name, email, role, Carts } = result;
+        const { id, name, email, role, Carts, Transactions } = result;
         res
           .status(200)
           .json({
             message: 'Verified!',
-            currentUser: { id, name, email, role, Carts }
+            currentUser: { id, name, email, role, Carts, Transactions }
           });
       })
       .catch(err => {

@@ -71,8 +71,16 @@ export default {
       return this.$router.push({ path: `/products/${ProductId}` });
     },
     checkout() {
-      console.log(this.getCarts());
-      console.log(`Checkout!`);
+      // show payment methods here
+      this.$axios.post("/transactions", {carts: this.getCarts()}, {headers: {token: localStorage.getItem("token")}})
+        .then(({data}) => {
+          this.deleteAllCarts();
+        })
+        .catch(err => {
+          console.log(err.response);
+        });
+    },
+    deleteAllCarts() {
       this.$axios.put("/carts/checkout", {carts: this.getCarts()}, {headers: {token: localStorage.getItem("token")}})
         .then(({data}) => {
           console.log(data.result);
