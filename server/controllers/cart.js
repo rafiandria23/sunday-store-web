@@ -112,7 +112,7 @@ class CartController {
       })
       .then(updatedProducts => {
         req.io.emit("reloadProducts");
-        res.status(200).json({ result });
+        res.status(200).json({ updatedProducts });
       })
       .catch(err => {
         console.log(err.message);

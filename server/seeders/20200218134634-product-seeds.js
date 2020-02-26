@@ -12,8 +12,8 @@ module.exports = {
           image_url: 'https://i.udemycdn.com/course/240x135/1362070_b9a1_2.jpg',
           price: 12.16,
           stock: 100,
-          createdAt: new Date(),
-          updatedAt: new Date()
+          createdAt: new Date(Date.now()),
+          updatedAt: new Date(Date.now())
         },
         {
           name: 'Modern React with Redux [2020 Update]',
@@ -22,8 +22,8 @@ module.exports = {
           image_url: 'https://i.udemycdn.com/course/240x135/705264_caa9_11.jpg',
           price: 12.16,
           stock: 100,
-          createdAt: new Date(),
-          updatedAt: new Date()
+          createdAt: new Date(Date.now()),
+          updatedAt: new Date(Date.now())
         },
         {
           name: 'Advanced React and Redux: 2020 Edition',
@@ -32,8 +32,8 @@ module.exports = {
           image_url: 'https://i.udemycdn.com/course/240x135/781532_8b4d_6.jpg',
           price: 12.16,
           stock: 100,
-          createdAt: new Date(),
-          updatedAt: new Date()
+          createdAt: new Date(Date.now()),
+          updatedAt: new Date(Date.now())
         },
         {
           name: 'Node with React: Fullstack Web Development',
@@ -42,8 +42,8 @@ module.exports = {
           image_url: 'https://i.udemycdn.com/course/240x135/1254420_f6cb_4.jpg',
           price: 12.16,
           stock: 100,
-          createdAt: new Date(),
-          updatedAt: new Date()
+          createdAt: new Date(Date.now()),
+          updatedAt: new Date(Date.now())
         },
         {
           name: 'The Complete React Developer Course (w/ Hooks and Redux)',
@@ -52,8 +52,8 @@ module.exports = {
           image_url: 'https://i.udemycdn.com/course/240x135/1286908_1773_5.jpg',
           price: 12.16,
           stock: 100,
-          createdAt: new Date(),
-          updatedAt: new Date()
+          createdAt: new Date(Date.now()),
+          updatedAt: new Date(Date.now())
         },
         {
           name: 'GraphQL with React: The Complete Developers Guide',
@@ -62,8 +62,8 @@ module.exports = {
           image_url: 'https://i.udemycdn.com/course/240x135/1109926_7f97_2.jpg',
           price: 12.16,
           stock: 100,
-          createdAt: new Date(),
-          updatedAt: new Date()
+          createdAt: new Date(Date.now()),
+          updatedAt: new Date(Date.now())
         },
         {
           name: 'Complete React Developer in 2020 (w/ Redux, Hooks, GraphQL)',
@@ -72,8 +72,8 @@ module.exports = {
           image_url: 'https://i.udemycdn.com/course/240x135/2365628_0b60_7.jpg',
           price: 12.16,
           stock: 100,
-          createdAt: new Date(),
-          updatedAt: new Date()
+          createdAt: new Date(Date.now()),
+          updatedAt: new Date(Date.now())
         },
         {
           name: 'Server Side Rendering with React and Redux',
@@ -82,8 +82,8 @@ module.exports = {
           image_url: 'https://i.udemycdn.com/course/240x135/1383496_caab_4.jpg',
           price: 12.16,
           stock: 100,
-          createdAt: new Date(),
-          updatedAt: new Date()
+          createdAt: new Date(Date.now()),
+          updatedAt: new Date(Date.now())
         },
         {
           name: 'The Modern React Bootcamp (Hooks, Context, NextJS, Router)',
@@ -92,8 +92,8 @@ module.exports = {
           image_url: 'https://i.udemycdn.com/course/240x135/2320056_4fa0_6.jpg',
           price: 12.16,
           stock: 100,
-          createdAt: new Date(),
-          updatedAt: new Date()
+          createdAt: new Date(Date.now()),
+          updatedAt: new Date(Date.now())
         }
       ],
       {}

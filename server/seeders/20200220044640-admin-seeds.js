@@ -9,8 +9,8 @@ module.exports = {
       email: 'adam@sunday.com',
       password: encryptPassword(process.env.SUPER_ADMIN_PASSWORD),
       role: 'Super Admin',
-      createdAt: new Date(),
-      updatedAt: new Date()
+      createdAt: new Date(Date.now()),
+      updatedAt: new Date(Date.now())
     }], {});
   },
 
