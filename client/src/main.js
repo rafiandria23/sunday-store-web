@@ -39,25 +39,27 @@ if (process.env.NODE_ENV !== "production") {
 Vue.use(VueSocketIOExt, socket);
 
 const getFormatter = async () => {
-  await axios.get("https://ip-api.com/json").then(({ data }) => {
-    if (data.countryCode === "ID") {
-      Vue.prototype.$currencyFormatter = input => {
-        const formatter = new Intl.NumberFormat("id-ID", {
-          style: "currency",
-          currency: "IDR"
-        });
-        return formatter.format(input * rates);
-      };
-    } else {
-      Vue.prototype.$currencyFormatter = input => {
-        const formatter = new Intl.NumberFormat("en-US", {
-          style: "currency",
-          currency: "USD"
-        });
-        return formatter.format(input);
-      };
-    }
-  });
+  await axios
+    .get("https://api.ipgeolocation.io/ipgeo?apiKey=d679a3798b774ad9868c9689705f5f97")
+    .then(({ data }) => {
+      if (data.country_code2 === "ID") {
+        Vue.prototype.$currencyFormatter = input => {
+          const formatter = new Intl.NumberFormat("id-ID", {
+            style: "currency",
+            currency: "IDR"
+          });
+          return formatter.format(input * rates);
+        };
+      } else {
+        Vue.prototype.$currencyFormatter = input => {
+          const formatter = new Intl.NumberFormat("en-US", {
+            style: "currency",
+            currency: "USD"
+          });
+          return formatter.format(input);
+        };
+      }
+    });
 }
 
 getFormatter();
