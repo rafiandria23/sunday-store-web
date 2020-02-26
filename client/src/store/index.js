@@ -1,13 +1,13 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
-import axios from 'axios';
+import Vue from "vue";
+import Vuex from "vuex";
+import axios from "axios";
 
 let api = null;
 
-if (process.env.NODE_ENV !== 'production') {
-  api = axios.create({ baseURL: 'http://localhost:3000/api' });
+if (process.env.NODE_ENV !== "production") {
+  api = axios.create({ baseURL: "http://localhost:3000/api" });
 } else {
-  api = axios.create({ baseURL: 'https://sunday-store.herokuapp.com/api' });
+  api = axios.create({ baseURL: "https://sunday-store.herokuapp.com/api" });
 }
 
 Vue.use(Vuex);
@@ -42,34 +42,40 @@ export default new Vuex.Store({
   actions: {
     requestAllProducts({ commit }) {
       api
-        .get('/products', {
-          method: 'GET'
+        .get("/products", {
+          method: "GET"
         })
         .then(result => {
-          commit('FETCH_ALL_PRODUCTS', result.data);
+          commit("FETCH_ALL_PRODUCTS", result.data);
         })
         .catch(err => {
           console.log(err.response);
         });
     },
     checkLoginStatus({ commit }) {
-      if (localStorage.getItem('token')) {
-        commit('LOGIN');
-        commit('SET_CURRENT_USER', JSON.parse(localStorage.getItem('currentUser')));
-        this.dispatch('checkRole');
+      if (localStorage.getItem("token")) {
+        api
+          .get("/users/check", { headers: { token: localStorage.getItem("token") } })
+          .then(({ data }) => {
+            localStorage.setItem("currentUser", JSON.stringify(data.currentUser));
+            commit("LOGIN");
+            commit("SET_CURRENT_USER", JSON.parse(localStorage.getItem("currentUser")));
+            this.dispatch("checkRole");
+          })
+          .catch(err => console.log(err.response));
       } else {
-        commit('LOGOUT');
+        commit("LOGOUT");
       }
     },
     logout({ commit }) {
       localStorage.clear();
-      commit('LOGOUT');
+      commit("LOGOUT");
     },
     checkRole({ commit }) {
       if (this.state.currentUser) {
         switch (this.state.currentUser.role) {
-          case 'Super Admin':
-            commit('SET_SUPER_ADMIN');
+          case "Super Admin":
+            commit("SET_SUPER_ADMIN");
             break;
 
           default:

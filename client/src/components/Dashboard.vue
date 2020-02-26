@@ -1,5 +1,5 @@
 <template>
-  <div class="dashboard">
+  <div class="dashboard" v-if="this.$store.state.currentUser">
     <div class="sidebar col-3">
       <div class="card" style="width: 18rem;">
         <img src="" class="card-img-top" alt="" />

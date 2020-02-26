@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       ProductId: {
         type: DataTypes.INTEGER
       },
-      stock: {
+      amount: {
         type: DataTypes.INTEGER
       }
     },

@@ -1,7 +1,7 @@
-"use strict";
+'use strict';
 
-const { User, Cart } = require("../models");
-const createError = require("http-errors");
+const { User, Cart } = require('../models');
+const createError = require('http-errors');
 
 class CartController {
   static findAll(req, res, next) {
@@ -9,8 +9,8 @@ class CartController {
       .then(result => {
         if (!result) {
           throw createError(404);
-        }
-        else {
+        } else {
+          req.io.emit('reloadProducts');
           res.status(200).json({ carts: result });
         }
       })
@@ -20,12 +20,13 @@ class CartController {
   }
 
   static findOne(req, res, next) {
-    Cart.findOne({ where: { id: Number(req.params.cart_id), UserId: req.user.id } })
+    Cart.findOne({
+      where: { id: Number(req.params.cart_id), UserId: req.user.id }
+    })
       .then(result => {
         if (!result) {
           throw createError(404);
-        }
-        else {
+        } else {
           res.status(200).json({ carts: result });
         }
       })
@@ -38,7 +39,7 @@ class CartController {
     const cartData = {
       UserId: Number(req.user.id),
       ProductId: Number(req.body.ProductId),
-      stock: 1
+      amount: 1
     };
 
     Cart.findOne({ where: { ProductId: cartData.ProductId } })
@@ -46,23 +47,42 @@ class CartController {
         if (!foundCart) {
           return Cart.create(cartData);
         } else {
-          let cartStock = foundCart.stock;
-          return Cart.update({ stock: cartStock + 1 }, { where: { ProductId: cartData.ProductId } });
+          let cartAmount = foundCart.amount;
+          return Cart.update(
+            { amount: cartAmount + 1 },
+            { where: { ProductId: cartData.ProductId } }
+          );
         }
       })
       .then(cart => {
-        if (typeof cart.stock !== "undefined") {
+        if (typeof cart.amount !== 'undefined') {
+          req.io.emit('reloadProducts');
           res
             .status(200)
             .json({ message: 'Successfully added to cart! Happy shopping!' });
         } else {
-          res
-            .status(201)
-            .json({
-              carts: cart,
-              message: 'Successfully added to cart! Happy shopping!'
-            });
+          req.io.emit('reloadProducts');
+          res.status(201).json({
+            carts: cart,
+            message: 'Successfully added to cart! Happy shopping!'
+          });
         }
+      })
+      .catch(err => {
+        next(err);
+      });
+  }
+
+  static updatePart(req, res, next) {
+    const cartData = {
+      CartId: Number(req.params.cart_id),
+      amount: Number(req.body.amount)
+    };
+
+    Cart.update({ amount: cartData.amount }, { where: { id: cartData.CartId } })
+      .then(result => {
+        req.io.emit('reloadCarts');
+        res.status(200).json({ message: 'Successfully updated amount!' });
       })
       .catch(err => {
         next(err);
@@ -72,7 +92,8 @@ class CartController {
   static destroy(req, res, next) {
     Cart.destroy({ where: { id: Number(req.params.cart_id) } })
       .then(result => {
-        res.status(200).json({ message: "Successfully deleted cart!" });
+        req.io.emit('reloadCarts');
+        res.status(200).json({ message: 'Successfully deleted cart!' });
       })
       .catch(err => {
         next(err);

@@ -9,6 +9,21 @@ import store from "./store";
 
 Vue.config.productionTip = false;
 
+let rates = null;
+
+const currencyRates = async () => {
+  await axios
+    .get("https://api.exchangeratesapi.io/latest?base=USD")
+    .then(({ data }) => {
+      rates = data.rates.IDR;
+    })
+    .catch(err => {
+      console.log(err.response);
+    });
+};
+
+currencyRates();
+
 Vue.prototype.$Swal = Swal;
 
 let socket = null;
@@ -22,6 +37,30 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 Vue.use(VueSocketIOExt, socket);
+
+const getFormatter = async () => {
+  await axios.get("http://ip-api.com/json").then(({ data }) => {
+    if (data.countryCode === "ID") {
+      Vue.prototype.$currencyFormatter = input => {
+        const formatter = new Intl.NumberFormat("id-ID", {
+          style: "currency",
+          currency: "IDR"
+        });
+        return formatter.format(input * rates);
+      };
+    } else {
+      Vue.prototype.$currencyFormatter = input => {
+        const formatter = new Intl.NumberFormat("en-US", {
+          style: "currency",
+          currency: "USD"
+        });
+        return formatter.format(input);
+      };
+    }
+  });
+}
+
+getFormatter();
 
 new Vue({
   router,

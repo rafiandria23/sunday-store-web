@@ -12,7 +12,7 @@
     >
       <img :src="product.image_url" class="card-img-top" :alt="product.name" />
       <div class="card-body">
-        <h5 class="card-title">{{ product.price }}</h5>
+        <h5 class="card-title">{{ this.$currencyFormatter(product.price) }}</h5>
         <p class="card-text">{{ product.stock }} Left</p>
         <!-- <router-link
           class="btn btn-primary"

@@ -70,7 +70,6 @@ export default {
             title: 'Successfully logged in!'
           });
           localStorage.setItem('token', data.token);
-          localStorage.setItem('currentUser', JSON.stringify(data.userData));
           this.$store.dispatch('checkLoginStatus');
           this.$router.push({ name: 'Home' });
         })

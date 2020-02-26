@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import Header from '@/components/Header.vue';
+import Header from "@/components/Header.vue";
 
 export default {
   components: {
@@ -17,17 +17,22 @@ export default {
       // console.log('Socket is connected!');
     },
     reloadProducts(data) {
-      this.$store.dispatch('requestAllProducts');
-      this.$store.dispatch('checkLoginStatus');
-      this.$router.push({ name: 'Products' });
+      this.$store.dispatch("requestAllProducts");
+      this.$store.dispatch("checkLoginStatus");
+      this.$router.push({ name: "Products" });
+    },
+    reloadCarts(data) {
+      this.$store.dispatch("requestAllProducts");
+      this.$store.dispatch("checkLoginStatus");
+      this.$router.push({ name: "Carts" }).catch(err => {});
     }
   },
   created() {
-    this.$store.dispatch('requestAllProducts');
-    this.$store.dispatch('checkLoginStatus');
+    this.$store.dispatch("requestAllProducts");
+    this.$store.dispatch("checkLoginStatus");
   },
   beforeMount() {
-    this.$store.dispatch('checkRole');
+    this.$store.dispatch("checkRole");
   }
 };
 </script>

@@ -54,9 +54,15 @@ class UserController {
   static check(req, res, next) {
     const { token } = req.headers;
     const { id, name, email } = verifyToken(token);
-    User.findOne({ where: { email } })
+    User.findOne({ where: { email }, include: ["Carts"] })
       .then(result => {
-        res.status(200).json({ message: 'Verified!' });
+        const { id, name, email, role, Carts } = result;
+        res
+          .status(200)
+          .json({
+            message: 'Verified!',
+            currentUser: { id, name, email, role, Carts }
+          });
       })
       .catch(err => {
         next(err);

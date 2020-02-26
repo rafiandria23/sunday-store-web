@@ -10,19 +10,21 @@
       <div class="card-body">
         <h5 class="card-title">{{ product.name }}</h5>
         <p class="card-text">{{ product.description }}</p>
-        <router-link
-          class="btn btn-primary m-1"
-          :to="{ name: 'Product', params: { ProductId: product.id } }"
-        >
-          See Product
-        </router-link>
-        <router-link
-          v-if="checkRole()"
-          class="btn btn-secondary m-1"
-          :to="{ name: 'Edit Product', params: { ProductId: product.id } }"
-        >
-          Edit Product
-        </router-link>
+        <div class="card-body">
+          <router-link
+            class="btn btn-primary m-1"
+            :to="{ name: 'Product', params: { ProductId: product.id } }"
+          >
+            See Product
+          </router-link>
+          <router-link
+            v-if="checkRole()"
+            class="btn btn-secondary m-1"
+            :to="{ name: 'Edit Product', params: { ProductId: product.id } }"
+          >
+            Edit Product
+          </router-link>
+        </div>
       </div>
     </div>
   </div>
@@ -30,7 +32,7 @@
 
 <script>
 export default {
-  name: 'ProductContainer',
+  name: "ProductContainer",
   methods: {
     getAllProducts() {
       return this.$store.state.products;
@@ -42,4 +44,13 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+  .card-body {
+    display: flex;
+    flex-direction: column;
+    
+    .btn {
+      margin-top: auto !important;
+    }
+  }
+</style>
