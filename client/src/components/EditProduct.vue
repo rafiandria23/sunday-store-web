@@ -27,12 +27,16 @@
       </div>
       <div class="form-group">
         <label for="edit-product-price">Product Price</label>
-        <input
-          type="number"
-          class="form-control"
-          id="edit-product-price"
-          v-model="productData.price"
-        />
+        <div class="d-flex align-items-center">
+          <h5 class="mr-2">$</h5>
+          <input
+            type="number"
+            class="form-control"
+            id="edit-product-price"
+            min="0.01" step="0.01"
+            v-model="productData.price"
+          />
+        </div>
       </div>
       <div class="form-group">
         <label for="edit-product-stock">Product Stocks</label>

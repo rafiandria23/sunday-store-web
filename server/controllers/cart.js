@@ -1,6 +1,6 @@
 'use strict';
 
-const { User, Cart } = require('../models');
+const { User, Cart, Product } = require('../models');
 const createError = require('http-errors');
 
 class CartController {
@@ -85,6 +85,37 @@ class CartController {
         res.status(200).json({ message: 'Successfully updated amount!' });
       })
       .catch(err => {
+        next(err);
+      });
+  }
+
+  static checkout(req, res, next) {
+    const { id } = req.user;
+    const carts = req.body.carts;
+    let checkoutData = [];
+
+    carts.forEach(cart => {
+      const amount = Number(cart.amount);
+      const ProductId = Number(cart.productDetail.id);
+      const currentProductStock = Number(cart.productDetail.stock);
+      checkoutData.push(
+        Product.update(
+          { stock: currentProductStock - amount },
+          { where: { id: ProductId } }
+        )
+      );
+    });
+
+    Cart.destroy({ where: { UserId: id } })
+      .then(result => {
+        return Promise.all(checkoutData);
+      })
+      .then(updatedProducts => {
+        req.io.emit("reloadProducts");
+        res.status(200).json({ result });
+      })
+      .catch(err => {
+        console.log(err.message);
         next(err);
       });
   }

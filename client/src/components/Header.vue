@@ -14,7 +14,7 @@
               to="/dashboard/products"
               >Dashboard</router-link
             >
-            <router-link v-if="!checkRole() && isLoggedIn()" class="nav-link" to="/dashboard"
+            <router-link v-if="!checkRole() && isLoggedIn()" class="nav-link" to="/dashboard/carts"
               >Dashboard</router-link
             >
           </li>

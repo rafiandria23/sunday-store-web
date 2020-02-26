@@ -10,21 +10,27 @@
       <div class="card-body">
         <h5 class="card-title">{{ product.name }}</h5>
         <p class="card-text">{{ product.description }}</p>
-        <div class="card-body">
-          <router-link
-            class="btn btn-primary m-1"
-            :to="{ name: 'Product', params: { ProductId: product.id } }"
-          >
-            See Product
-          </router-link>
-          <router-link
-            v-if="checkRole()"
-            class="btn btn-secondary m-1"
-            :to="{ name: 'Edit Product', params: { ProductId: product.id } }"
-          >
-            Edit Product
-          </router-link>
-        </div>
+        <router-link
+          class="btn btn-secondary m-1"
+          :to="{ name: 'Product', params: { ProductId: product.id } }"
+        >
+          See Product
+        </router-link>
+        <button
+          type="button"
+          v-if="!checkRole()"
+          class="btn btn-primary m-1"
+          @click.prevent="addCart(product.id)"
+        >
+          Add to Cart
+        </button>
+        <router-link
+          v-if="checkRole()"
+          class="btn btn-primary m-1"
+          :to="{ name: 'Edit Product', params: { ProductId: product.id } }"
+        >
+          Edit Product
+        </router-link>
       </div>
     </div>
   </div>
@@ -39,18 +45,38 @@ export default {
     },
     checkRole() {
       return this.$store.state.isSuperAdmin;
+    },
+    addCart(ProductId) {
+      const cartData = {
+        ProductId: Number(ProductId)
+      };
+      const token = localStorage.getItem("token");
+      this.$axios
+        .post("/carts", cartData, { headers: { token } })
+        .then(({ data }) => {
+          const Toast = this.$Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            onOpen: toast => {
+              toast.addEventListener("mouseenter", this.$Swal.stopTimer);
+              toast.addEventListener("mouseleave", this.$Swal.resumeTimer);
+            }
+          });
+          Toast.fire({
+            icon: "success",
+            title: data.message
+          });
+          this.$router.push({ name: "Home" });
+        })
+        .catch(err => {
+          console.log(err.response);
+        });
     }
   }
 };
 </script>
 
-<style lang="scss" scoped>
-  .card-body {
-    display: flex;
-    flex-direction: column;
-    
-    .btn {
-      margin-top: auto !important;
-    }
-  }
-</style>
+<style lang="scss" scoped></style>

@@ -15,6 +15,9 @@
           <option value="9">9</option>
           <option value="10">10+</option>
         </select>
+        <div class="text-primary delete-cart ml-2" type="button" @click.prevent="deleteCart()">
+          Delete
+        </div>
       </div>
       <div v-if="qtyForm" class="form-group">
         <label class="mr-2">Qty:</label>
@@ -89,10 +92,7 @@ export default {
     },
     deleteCart() {
       this.$axios
-        .delete(
-          `/carts/${this.cart.id}`,
-          { headers: { token: localStorage.getItem("token") } }
-        )
+        .delete(`/carts/${this.cart.id}`, { headers: { token: localStorage.getItem("token") } })
         .then(({ data }) => {
           // console.log(data.message);
         })

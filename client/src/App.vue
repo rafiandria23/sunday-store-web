@@ -19,7 +19,11 @@ export default {
     reloadProducts(data) {
       this.$store.dispatch("requestAllProducts");
       this.$store.dispatch("checkLoginStatus");
-      this.$router.push({ name: "Products" });
+      if (this.$store.state.isSuperAdmin) {
+        this.$router.push({ name: "Products" });
+      } else {
+        this.$router.push({name: "Home"});
+      }
     },
     reloadCarts(data) {
       this.$store.dispatch("requestAllProducts");
