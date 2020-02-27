@@ -1,28 +1,29 @@
 <template>
-  <div v-if="product" class="jumbotron product-container d-flex my-0">
-    <div class="container product-heading">
-      <h1 class="display-4">{{ product.name }}</h1>
-      <p class="lead">
+  <div v-if="product" class="jumbotron product-container d-flex justify-content-between my-0">
+    <div class="container product-heading px-5">
+      <h3 class="text-justify">{{ product.name }}</h3>
+      <div class="text-justify mt-5">
         {{ product.description }}
-      </p>
+      </div>
     </div>
     <div
-      class="shadow d-flex flex-column align-items-center card my-3 product-card"
-      style="width: 18rem;"
+      class="shadow d-flex flex-column align-items-center pt-4 card product-card"
+      style="width: 40rem;"
     >
       <img :src="product.image_url" class="card-img-top" :alt="product.name" />
-      <div class="card-body">
-        <h5 class="card-title">{{ this.$currencyFormatter(product.price) }}</h5>
-        <p class="card-text">{{ product.stock }} Left</p>
-        <!-- <router-link
-          class="btn btn-primary"
-          :to="{ name: 'Product', params: { ProductId: product.id } }"
-        >
-          Add to Cart
-        </router-link> -->
-        <button type="button" class="btn btn-primary" @click.prevent="addCart()">
+      <div class="card-body d-flex flex-column align-items-center">
+        <h4 class="card-title pt-4"><strong>{{ this.$currencyFormatter(product.price) }}</strong></h4>
+          In Stock <em class="card-text">{{ product.stock }} Left</em>
+        <button v-if="!checkRole()" type="button" class="btn btn-primary" @click.prevent="addCart()">
           Add to Cart
         </button>
+        <router-link
+            v-if="checkRole()"
+            class="btn btn-primary m-1"
+            :to="{ name: 'Edit Product', params: { ProductId: product.id } }"
+          >
+            Edit Product
+          </router-link>
       </div>
     </div>
   </div>
@@ -76,6 +77,9 @@ export default {
         .catch(err => {
           console.log(err.response);
         });
+    },
+    checkRole() {
+      return this.$store.state.isSuperAdmin;
     }
   }
 };

@@ -9,12 +9,25 @@ const createError = require('http-errors');
 class UserController {
   static register(req, res, next) {
     const { name, email, password } = req.body;
-    User.create({ name, email, password })
+    User.findOne({ where: { email } })
+      .then(foundUser => {
+        if (foundUser) {
+          throw createError(400, {
+            name: 'SequelizeValidationError',
+            errors: [
+              {
+                message: 'Email has already been taken!'
+              }
+            ]
+          });
+        } else {
+          return User.create({ name, email, password });
+        }
+      })
       .then(result => {
         res.status(201).json({ message: 'Please login to continue!' });
       })
       .catch(err => {
-        // res.json(err);
         next(err);
       });
   }
@@ -30,7 +43,7 @@ class UserController {
     } else if (!email && !password) {
       next(createError(400, [emailError, passwordError]));
     } else {
-      User.findOne({ where: { email }, include: ['Carts', "Transactions"] })
+      User.findOne({ where: { email }, include: ['Carts', 'Transactions'] })
         .then(result => {
           if (!result) {
             next(createError(400, { message: 'User not found!' }));
@@ -54,15 +67,13 @@ class UserController {
   static check(req, res, next) {
     const { token } = req.headers;
     const { id, name, email } = verifyToken(token);
-    User.findOne({ where: { email }, include: ["Carts", "Transactions"] })
+    User.findOne({ where: { email }, include: ['Carts', 'Transactions'] })
       .then(result => {
         const { id, name, email, role, Carts, Transactions } = result;
-        res
-          .status(200)
-          .json({
-            message: 'Verified!',
-            currentUser: { id, name, email, role, Carts, Transactions }
-          });
+        res.status(200).json({
+          message: 'Verified!',
+          currentUser: { id, name, email, role, Carts, Transactions }
+        });
       })
       .catch(err => {
         next(err);

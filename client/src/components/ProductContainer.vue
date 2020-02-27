@@ -8,29 +8,36 @@
     >
       <img :src="product.image_url" class="card-img-top" :alt="product.name" />
       <div class="card-body">
-        <h5 class="card-title">{{ product.name }}</h5>
-        <p class="card-text">{{ product.description }}</p>
         <router-link
-          class="btn btn-secondary m-1"
+          class="card-title"
           :to="{ name: 'Product', params: { ProductId: product.id } }"
         >
-          See Product
+          <strong>{{ product.name }}</strong>
         </router-link>
-        <button
-          type="button"
-          v-if="!checkRole()"
-          class="btn btn-primary m-1"
-          @click.prevent="addCart(product.id)"
-        >
-          Add to Cart
-        </button>
-        <router-link
-          v-if="checkRole()"
-          class="btn btn-primary m-1"
-          :to="{ name: 'Edit Product', params: { ProductId: product.id } }"
-        >
-          Edit Product
-        </router-link>
+        <h4 class="m-3"><strong>{{ currencyFormatter(product.price) }}</strong></h4>
+        <div class="mt-4">
+          <router-link
+            class="btn btn-secondary m-1"
+            :to="{ name: 'Product', params: { ProductId: product.id } }"
+          >
+            See Product
+          </router-link>
+          <button
+            type="button"
+            v-if="!checkRole()"
+            class="btn btn-primary m-1"
+            @click.prevent="addCart(product.id)"
+          >
+            Add to Cart
+          </button>
+          <router-link
+            v-if="checkRole()"
+            class="btn btn-primary m-1"
+            :to="{ name: 'Edit Product', params: { ProductId: product.id } }"
+          >
+            Edit Product
+          </router-link>
+        </div>
       </div>
     </div>
   </div>
@@ -74,6 +81,9 @@ export default {
         .catch(err => {
           console.log(err.response);
         });
+    },
+    currencyFormatter(input) {
+      return this.$currencyFormatter(input);
     }
   }
 };

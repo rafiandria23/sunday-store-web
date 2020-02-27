@@ -10,6 +10,7 @@
           class="form-control"
           id="user_email"
           placeholder="Enter your email..."
+          required
         />
       </div>
       <div class="form-group">
@@ -20,6 +21,7 @@
           class="form-control"
           id="user_password"
           placeholder="Enter password..."
+          required
         />
       </div>
       <button type="submit" class="btn btn-primary">Login</button>

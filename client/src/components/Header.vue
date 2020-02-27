@@ -36,30 +36,21 @@
             </div> -->
           </li>
         </ul>
-        <div class="form-inline my-2 my-lg-0">
-          <ul class="navbar-nav mr-auto">
-            <li v-if="!isLoggedIn()" class="nav-item d-flex">
-              <router-link class="nav-link" to="/register">Register</router-link>
-              <p class="nav-link">or</p>
-            </li>
-            <li class="nav-item ml-1">
-              <router-link
-                v-if="!isLoggedIn()"
-                class="btn btn-outline-dark my-2 my-sm-0"
-                to="/login"
-                >Login</router-link
-              >
-              <button
-                v-if="isLoggedIn()"
-                @click="logout"
-                type="button"
-                class="btn btn-outline-dark my-2 my-sm-0"
-              >
-                Logout
-              </button>
-            </li>
-          </ul>
+        <div v-if="!isLoggedIn()" class="d-flex justify-content-center align-items-baseline">
+          <router-link class="nav-link mr-0" to="/register">Register</router-link>
+          <div>or</div>
+          <router-link v-if="!isLoggedIn()" class="btn btn-outline-dark my-2 ml-3" to="/login"
+            >Login</router-link
+          >
         </div>
+        <button
+          v-if="isLoggedIn()"
+          @click="logout"
+          type="button"
+          class="btn btn-outline-dark my-2 my-sm-0"
+        >
+          Logout
+        </button>
       </div>
     </nav>
   </div>
@@ -67,15 +58,15 @@
 
 <script>
 export default {
-  name: 'Header',
+  name: "Header",
   methods: {
     isLoggedIn() {
       return this.$store.state.isLoggedIn;
     },
     logout() {
-      this.$store.dispatch('logout');
-      this.$router.push({ name: 'Login' });
-      this.$store.dispatch('checkLoginStatus');
+      this.$store.dispatch("logout");
+      this.$router.push({ name: "Login" });
+      this.$store.dispatch("checkLoginStatus");
     },
     checkRole() {
       return this.$store.state.isSuperAdmin;

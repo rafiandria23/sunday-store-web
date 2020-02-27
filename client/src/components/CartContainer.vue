@@ -13,15 +13,15 @@
             class="img-thumbnail"
           />
           <div class="cart-detail">
-            <h5>
+            <h6>
               <div
-                class="text-primary product-title"
+                class="text-primary product-title text-justify px-4"
                 type="button"
                 @click.prevent="toProductDetail(cart.productDetail.id)"
               >
                 {{ cart.productDetail.name }}
               </div>
-            </h5>
+            </h6>
             <QtyForm class="mt-3" :cart="cart" />
           </div>
           <h5>
@@ -31,11 +31,15 @@
         <li class="list-group-item">
           <div class="d-felx justify-content-between text-right">
             <h5>Subtotal {{ `(${totalItems} items)` }}</h5>
-            <h5><strong>{{ `${currencyFormatter(getSubtotal)}` }}</strong></h5>
+            <h5>
+              <strong>{{ `${currencyFormatter(getSubtotal)}` }}</strong>
+            </h5>
           </div>
         </li>
       </ul>
-      <button class="btn btn-primary mt-3 float-right" type="button" @click="checkout">Proceed to Checkout</button>
+      <button class="btn btn-primary mt-3 float-right" type="button" @click="checkout">
+        Proceed to Checkout
+      </button>
     </div>
     <div v-else>
       No carts for now. Let's go Shopping!
@@ -72,8 +76,13 @@ export default {
     },
     checkout() {
       // show payment methods here
-      this.$axios.post("/transactions", {carts: this.getCarts()}, {headers: {token: localStorage.getItem("token")}})
-        .then(({data}) => {
+      this.$axios
+        .post(
+          "/transactions",
+          { carts: this.getCarts() },
+          { headers: { token: localStorage.getItem("token") } }
+        )
+        .then(({ data }) => {
           this.deleteAllCarts();
         })
         .catch(err => {
@@ -81,8 +90,13 @@ export default {
         });
     },
     deleteAllCarts() {
-      this.$axios.put("/carts/checkout", {carts: this.getCarts()}, {headers: {token: localStorage.getItem("token")}})
-        .then(({data}) => {
+      this.$axios
+        .put(
+          "/carts/checkout",
+          { carts: this.getCarts() },
+          { headers: { token: localStorage.getItem("token") } }
+        )
+        .then(({ data }) => {
           console.log(data.result);
         })
         .catch(err => {
@@ -102,7 +116,11 @@ export default {
       if (this.getCarts().length === 1) {
         return this.getCarts()[0].amount;
       } else {
-        return this.getCarts().reduce((acc, curVal) => acc.amount + curVal.amount);
+        let totalItems = null;
+        this.getCarts().forEach(cart => {
+          totalItems += cart.amount;
+        });
+        return totalItems;
       }
     }
   }
@@ -110,6 +128,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.cart-container {
+  .img-thumbnail {
+    height: 180px;
+    object-fit: contain;
+  }
+}
+
 .cart-detail {
   display: flex;
   flex-direction: column;
