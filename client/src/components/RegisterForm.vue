@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <form @submit.prevent="register">
+    <form @submit.prevent="register" autocomplete="on">
       <div class="form-group">
         <label for="user_fullname">Full Name</label>
         <input
@@ -32,6 +32,7 @@
           id="user_password"
           placeholder="Enter password..."
           required
+          autocomplete="on"
         />
       </div>
       <button type="submit" class="btn btn-primary">Register</button>

@@ -1,7 +1,7 @@
 <template>
   <div class="container shadow p-5 rounded login-form">
     <h1>Login</h1>
-    <form @submit.prevent="login">
+    <form @submit.prevent="login" autocomplete="on">
       <div class="form-group">
         <label for="user_email">Email Address</label>
         <input
@@ -21,6 +21,7 @@
           class="form-control"
           id="user_password"
           placeholder="Enter password..."
+          autocomplete="on"
           required
         />
       </div>
