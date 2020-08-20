@@ -20,7 +20,7 @@
   "author": "Adam Rafiandri",
   "license": "MIT",
   "dependencies": {
-    "bcrypt": "^3.0.8",
+    "bcrypt": "^5.0.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "http-errors": "^1.7.3",
